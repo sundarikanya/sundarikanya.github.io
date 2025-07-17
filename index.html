@@ -91,40 +91,44 @@
   </div>
 </header>
 
+
 <script>
-  async function loadTopCategories() {
+async function loadTopCategories() {
     try {
-      const response = await fetch("https://sundarikanya.vercel.app/api/get/bestcategory");
-      const result = await response.json();
+        const response = await fetch("https://sundarikanya.vercel.app/api/get/bestcategory");
+        const result = await response.json();
 
-      const categoryList = document.getElementById("categoryList");
-      categoryList.innerHTML = "";
+        const categoryList = document.getElementById("categoryList");
+        categoryList.innerHTML = "";
 
-      if (result.status === "success" && result.best_categories.length > 0) {
-        result.best_categories.forEach((cat, index) => {
-          const li = document.createElement("li");
-          li.className = "list-inline-item";
-          li.innerHTML = `<a href="#" class="text-secondary">${cat.category}</a>`;
-          categoryList.appendChild(li);
+        if (result.status === "success" && result.best_categories.length > 0) {
+            // Limit to 10 or 15 items
+            const topCategories = result.best_categories.slice(0, 15);
 
-          // Add separator except after the last item
-          if (index !== result.best_categories.length - 1) {
-            const separator = document.createElement("li");
-            separator.className = "list-inline-item";
-            separator.innerText = "|";
-            categoryList.appendChild(separator);
-          }
-        });
-      } else {
-        categoryList.innerHTML = "<li class='list-inline-item'>No categories found</li>";
-      }
+            topCategories.forEach((cat, index) => {
+                const li = document.createElement("li");
+                li.className = "list-inline-item";
+                li.innerHTML = `<a href="#" class="text-secondary">${cat.category}</a>`;
+                categoryList.appendChild(li);
+
+                if (index !== topCategories.length - 1) {
+                    const separator = document.createElement("li");
+                    separator.className = "list-inline-item";
+                    separator.innerText = "|";
+                    categoryList.appendChild(separator);
+                }
+            });
+        } else {
+            categoryList.innerHTML = "<li class='list-inline-item'>No categories found</li>";
+        }
     } catch (error) {
-      categoryList.innerHTML = "<li class='list-inline-item'>Failed to load categories</li>";
+        categoryList.innerHTML = "<li class='list-inline-item'>Failed to load categories</li>";
     }
-  }
+}
 
-  loadTopCategories();
+loadTopCategories();
 </script>
+
 
 <!-- Main Layout -->
 <div class="container-fluid">
