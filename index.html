@@ -87,7 +87,7 @@
 <header class="bg-white shadow-sm p-3 mb-3">
   <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
     <div class="logo">MODEL HUB</div>
-    <ul id="categoryList" class="keywords list-inline mb-0"></ul>
+<ul id="categoryList" class="keywords list-inline mb-0"></ul>
   </div>
 </header>
 
@@ -98,33 +98,28 @@
       const result = await response.json();
 
       const categoryList = document.getElementById("categoryList");
-      categoryList.innerHTML = ""; // clear any existing content
+      categoryList.innerHTML = "";
 
       if (result.status === "success" && result.best_categories.length > 0) {
-        result.best_categories.forEach(cat => {
+        result.best_categories.forEach((cat, index) => {
           const li = document.createElement("li");
           li.className = "list-inline-item";
-          li.innerHTML = `<a href="#" class="text-secondary">${cat.category} (${cat.count})</a>`;
+          li.innerHTML = `<a href="#" class="text-secondary">${cat.category}</a>`;
           categoryList.appendChild(li);
 
-          // Add separator
-          const separator = document.createElement("li");
-          separator.className = "list-inline-item";
-          separator.innerText = "|";
-          categoryList.appendChild(separator);
+          // Add separator except after the last item
+          if (index !== result.best_categories.length - 1) {
+            const separator = document.createElement("li");
+            separator.className = "list-inline-item";
+            separator.innerText = "|";
+            categoryList.appendChild(separator);
+          }
         });
-
-        // Remove last separator
-        if (categoryList.lastChild) {
-          categoryList.removeChild(categoryList.lastChild);
-        }
       } else {
         categoryList.innerHTML = "<li class='list-inline-item'>No categories found</li>";
       }
-
     } catch (error) {
-      console.error("Error fetching categories:", error);
-      document.getElementById("categoryList").innerHTML = "<li class='list-inline-item'>Failed to load categories</li>";
+      categoryList.innerHTML = "<li class='list-inline-item'>Failed to load categories</li>";
     }
   }
 
