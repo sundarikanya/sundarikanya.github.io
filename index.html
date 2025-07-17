@@ -90,7 +90,7 @@
 </ul>
 
 <script>
-  fetch('/api/get/bestcategory')
+  fetch('https://sundarikanya.vercel.app/api/get/bestcategory')
     .then(res => res.json())
     .then(data => {
       const list = document.getElementById('category-list');
