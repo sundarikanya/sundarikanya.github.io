@@ -81,7 +81,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8089
 
 | Home Page                                    | Video Page                                    |
 | -------------------------------------------- | --------------------------------------------- |
-| ![Home](https://via.placeholder.com/300x200) | ![Video](https://via.placeholder.com/300x200) |
+| ![Home](https://github.com/sundarikanya/sundarikanya.github.io/blob/main/Screenshot%20(1303).png) | ![Video](https://github.com/sundarikanya/sundarikanya.github.io/blob/main/Screenshot%20(1304).png) |
 
 ---
 
