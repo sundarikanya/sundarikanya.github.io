@@ -96,8 +96,8 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 MIT License
 
 ---
+### 👑 Developed by [Sanjay Kumar Yadav]((https://sanjayengineer121.github.io/)
 
-### 👑 Developed by [Sanjay Kumar Yadav]([https://github.com/your-username](https://sanjayengineer121.github.io/))
 
 ---
 
