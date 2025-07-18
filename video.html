@@ -60,25 +60,75 @@
 </head>
 <body>
 
+  <style>
+  .logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: crimson;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo img {
+    height: 28px;
+    vertical-align: middle;
+  }
+</style>
+
+</head>
+<body>
+
 <!-- Header -->
+
+
 <header class="bg-white shadow-sm p-3 mb-3">
   <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
-    <div class="logo">SUNDARI KANYA</div>
-    <ul class="keywords list-inline mb-0">
-      <li class="list-inline-item"><a href="#" class="text-decoration-none text-secondary">Indian Model</a></li>
-      <li class="list-inline-item">|</li>
-      <li class="list-inline-item"><a href="#" class="text-decoration-none text-secondary">Saree</a></li>
-      <li class="list-inline-item">|</li>
-      <li class="list-inline-item"><a href="#" class="text-decoration-none text-secondary">Bridal</a></li>
-      <li class="list-inline-item">|</li>
-      <li class="list-inline-item"><a href="#" class="text-decoration-none text-secondary">Style</a></li>
-      <li class="list-inline-item">|</li>
-      <li class="list-inline-item"><a href="#" class="text-decoration-none text-secondary">Beauty</a></li>
-      <li class="list-inline-item">|</li>
-      <li class="list-inline-item"><a href="#" class="text-decoration-none text-secondary">Fashion</a></li>
-    </ul>
+<div class="logo">
+  MODEL
+  <img src="swimsuit_4813557.png" alt="Logo Icon">
+  HUB
+</div>  <ul id="categoryList" class="keywords list-inline mb-0"></ul>
   </div>
 </header>
+
+
+<script>
+async function loadTopCategories() {
+    try {
+        const response = await fetch("https://sundarikanya.vercel.app/api/get/bestcategory");
+        const result = await response.json();
+
+        const categoryList = document.getElementById("categoryList");
+        categoryList.innerHTML = "";
+
+        if (result.status === "success" && result.best_categories.length > 0) {
+            // Limit to 10 or 15 items
+            const topCategories = result.best_categories.slice(0, 15);
+
+            topCategories.forEach((cat, index) => {
+                const li = document.createElement("li");
+                li.className = "list-inline-item";
+                li.innerHTML = `<a href="#" class="text-secondary">${cat.category}</a>`;
+                categoryList.appendChild(li);
+
+                if (index !== topCategories.length - 1) {
+                    const separator = document.createElement("li");
+                    separator.className = "list-inline-item";
+                    separator.innerText = "|";
+                    categoryList.appendChild(separator);
+                }
+            });
+        } else {
+            categoryList.innerHTML = "<li class='list-inline-item'>No categories found</li>";
+        }
+    } catch (error) {
+        categoryList.innerHTML = "<li class='list-inline-item'>Failed to load categories</li>";
+    }
+}
+
+loadTopCategories();
+</script>
 
 
 
