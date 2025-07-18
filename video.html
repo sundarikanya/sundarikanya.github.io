@@ -135,25 +135,60 @@ loadTopCategories();
 <div class="container mb-4">
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
+      
+      <!-- Video -->
       <div class="ratio ratio-16x9 mb-3">
         <video id="videoPlayer" controls class="w-100" style="max-height: 480px;">
           <source id="videoSource" src="" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
+
+      <!-- Previous / Next -->
       <div class="d-flex justify-content-between mb-3">
-        <button id="prevBtn" class="btn btn-outline-primary">&larr; Previous</button>
-        <button id="nextBtn" class="btn btn-outline-primary">Next &rarr;</button>
+        <div class="text-start">
+          <button id="prevBtn" class="btn btn-outline-primary">&larr; Previous</button>
+        </div>
+        <div class="text-end">
+          <button id="nextBtn" class="btn btn-outline-primary">Next &rarr;</button>
+        </div>
       </div>
 
+      <!-- Like, Views, Share aligned like Previous/Next -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        
+        <!-- Like -->
+        <button id="likeBtn" class="btn btn-danger">
+          <i class="bi bi-hand-thumbs-up-fill me-2"></i> 
+          <span id="likeCount">0</span> Likes
+        </button>
+        
+        <!-- Views -->
+        <div class="btn btn-outline-secondary disabled">
+          <i class="bi bi-eye-fill me-2"></i> 
+          <span id="viewCount">0</span> Views
+        </div>
+        
+        <!-- Share -->
+        <button id="shareBtn" class="btn btn-primary">
+          <i class="bi bi-share-fill me-2"></i> 
+          <span id="shareCount">0</span> Shares
+        </button>
+      </div>
+
+
+      <!-- Title and Description -->
       <h4 class="fw-semibold" id="video-title">Loading title...</h4>
       <p class="text-muted" id="video-description">Loading description...</p>
 
+      <!-- Tags and Category -->
       <p><strong>Tag:</strong> <span id="video-tags-container"></span></p>
       <p><strong>Category:</strong> <span id="video-categories-container"></span></p>
+
     </div>
   </div>
 </div>
+
 
 <!-- Suggested Videos -->
 <div class="container mt-4">
@@ -163,9 +198,77 @@ loadTopCategories();
   </div>
 </div>
 
+
+
+
+<script>
+const params1 = new URLSearchParams(window.location.search);
+const currentId1 = params1.get("id");
+
+// API URLs
+const baseUrl = "https://loyalitydashboard12.pythonanywhere.com/api";
+
+// DOM Elements
+const likeCount = document.getElementById("likeCount");
+const shareCount = document.getElementById("shareCount");
+const viewCount = document.getElementById("viewCount");
+
+const likeBtn = document.getElementById("likeBtn");
+const shareBtn = document.getElementById("shareBtn");
+
+function loadStats() {
+    fetch(`${baseUrl}/get/stats?id=${currentId1}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                likeCount.textContent = data.stats.likes;
+                shareCount.textContent = data.stats.shares;
+                viewCount.textContent = data.stats.views;
+            }
+        })
+        .catch(console.error);
+}
+
+// Auto increment views
+function addView() {
+    fetch(`${baseUrl}/get/video?id=${currentId1}`)
+        .then(res => res.json())
+        .then(() => loadStats())
+        .catch(console.error);
+}
+
+// Like button click
+likeBtn.addEventListener("click", () => {
+    fetch(`${baseUrl}/like?id=${currentId1}`, { method: "POST" })
+        .then(res => res.json())
+        .then(() => loadStats())
+        .catch(console.error);
+});
+
+// Share button click
+shareBtn.addEventListener("click", () => {
+    fetch(`${baseUrl}/share?id=${currentId1}`, { method: "POST" })
+        .then(res => res.json())
+        .then(() => loadStats())
+        .catch(console.error);
+});
+
+// On page load
+if (currentId1) {
+    addView();  // +1 view on load
+    loadStats();
+} else {
+    console.error("ID not found in URL");
+}
+</script>
+
+
+
 <script>
   const params = new URLSearchParams(window.location.search);
   const currentId = params.get("id");
+
+
 
   if (!currentId) {
     document.body.innerHTML =
