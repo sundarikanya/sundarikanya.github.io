@@ -160,34 +160,14 @@ loadTopCategories();
 
     <!-- Center Cards -->
     <div class="col-md-8">
-      <div class="row g-3">
-        <!-- Card Template -->
-       
-        <script>
-        fetch('https://sundarikanya.vercel.app/api/get/sundarikanya')
-        .then(res => res.json())
-        .then(data => {
-            const container = document.querySelector('.row.g-3');
-            data.forEach(video => {
-            const card = `
-                <div class="col-6 col-md-4 col-lg-2">
-                <a href="video.html?id=${video.id}" class="text-decoration-none text-dark">
-                    <div class="outer-card">
-                    <div class="inner-box">
-                        <div class="thumbnail-wrapper">
-                        <img class="thumb" src="${video.thumbnail}" alt="Thumbnail">
-                        </div>
-                        <div class="video-title">${video.title}</div>
-                    </div>
-                    </div>
-                </a>
-                </div>`;
-            container.insertAdjacentHTML('beforeend', card);
-            });
-        });
-        </script>
+      <div class="row g-3" id="video-container">
+        <!-- Cards will be injected here -->
+      </div>
 
-        <!-- End Cards -->
+      <!-- Pagination Controls -->
+      <div class="d-flex justify-content-center my-4">
+        <button id="prevBtn" class="btn btn-outline-primary mx-2" disabled>Previous</button>
+        <button id="nextBtn" class="btn btn-primary mx-2">Next Page</button>
       </div>
     </div>
 
@@ -198,6 +178,64 @@ loadTopCategories();
 
   </div>
 </div>
+
+<script>
+let currentPage = 1;
+
+function loadVideos(page) {
+  fetch(`https://sundarikanya.vercel.app/api/get/sundarikanya?page=${page}`)
+    .then(res => res.json())
+    .then(response => {
+      const data = response.data;
+      const container = document.getElementById('video-container');
+      container.innerHTML = ''; // Clear previous data
+
+      if (data.length === 0) {
+        container.innerHTML = "<h4 class='text-center my-5'>No more videos found.</h4>";
+        document.getElementById('nextBtn').disabled = true;
+        return;
+      }
+
+      data.forEach(video => {
+        const card = `
+          <div class="col-6 col-md-4 col-lg-2">
+            <a href="video.html?id=${video.id}" class="text-decoration-none text-dark">
+              <div class="outer-card">
+                <div class="inner-box">
+                  <div class="thumbnail-wrapper">
+                    <img class="thumb" src="${video.thumbnail}" alt="Thumbnail">
+                  </div>
+                  <div class="video-title">${video.title}</div>
+                </div>
+              </div>
+            </a>
+          </div>`;
+        container.insertAdjacentHTML('beforeend', card);
+      });
+
+      // Enable/Disable buttons
+      document.getElementById('prevBtn').disabled = page <= 1;
+      document.getElementById('nextBtn').disabled = data.length < 60;
+    });
+}
+
+// Initial load
+loadVideos(currentPage);
+
+// Pagination buttons
+document.getElementById('prevBtn').addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    loadVideos(currentPage);
+  }
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  currentPage++;
+  loadVideos(currentPage);
+});
+</script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

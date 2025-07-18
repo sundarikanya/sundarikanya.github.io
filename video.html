@@ -190,12 +190,22 @@ loadTopCategories();
 </div>
 
 
-<!-- Suggested Videos -->
 <div class="container mt-4">
   <h5 class="mb-3">Suggested Videos</h5>
   <div id="suggestedVideos" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
     <!-- Dynamic cards injected here -->
   </div>
+
+  <nav aria-label="Suggested videos pagination">
+    <ul class="pagination justify-content-center mt-3">
+      <li class="page-item" id="prevPage">
+        <button class="page-link">Previous</button>
+      </li>
+      <li class="page-item" id="nextPage">
+        <button class="page-link">Next</button>
+      </li>
+    </ul>
+  </nav>
 </div>
 
 
@@ -376,53 +386,92 @@ if (currentId1) {
     loadSuggestedVideos(bestCategory);
   }
 
-  async function loadSuggestedVideos(category) {
-    const container = document.getElementById("suggestedVideos");
-    container.innerHTML = "<p>Loading suggested videos...</p>";
 
-    if (!category) {
-      container.innerHTML = "<p>No category available for suggestions.</p>";
-      return;
-    }
+  let currentPage = 1;
+const limit = 36; // Items per page
 
-    try {
-      const response = await fetch(
-        `https://sundarikanya.vercel.app/api/get/sundarikanya1?category=${encodeURIComponent(
-          category
-        )}`
-      );
-      const data = await response.json();
+async function loadSuggestedVideos(category, page = 1) {
+  const container = document.getElementById("suggestedVideos");
+  container.innerHTML = "<p>Loading suggested videos...</p>";
 
-      if (data.status === "success" && data.count > 0) {
-        container.innerHTML = ""; // Clear existing cards
-
-        data.data.forEach((video) => {
-          const colDiv = document.createElement("div");
-          colDiv.className = "col";
-
-          colDiv.innerHTML = `
-            <a href="video.html?id=${video.id}" class="text-decoration-none text-dark">
-              <div class="outer-card">
-                <div class="inner-box">
-                  <div class="thumbnail-wrapper">
-                    <img class="thumb" src="${video.thumbnail}" alt="Thumbnail" />
-                  </div>
-                  <div class="video-title">${video.title}</div>
-                </div>
-              </div>
-            </a>
-          `;
-
-          container.appendChild(colDiv);
-        });
-      } else {
-        container.innerHTML = "<p>No suggested videos found for this category.</p>";
-      }
-    } catch (error) {
-      container.innerHTML = "<p>Error loading suggested videos.</p>";
-      console.error(error);
-    }
+  if (!category) {
+    container.innerHTML = "<p>No category available for suggestions.</p>";
+    return;
   }
+
+  try {
+    const response = await fetch(
+      `https://sundarikanya.vercel.app/api/get/sundarikanya1?category=${encodeURIComponent(category)}&page=${page}&limit=${limit}`
+    );
+    const data = await response.json();
+
+    if (data.status === "success" && data.count > 0) {
+      container.innerHTML = ""; // Clear existing cards
+
+      data.data.forEach((video) => {
+        const colDiv = document.createElement("div");
+        colDiv.className = "col";
+
+        colDiv.innerHTML = `
+          <a href="video.html?id=${video.id}" class="text-decoration-none text-dark">
+            <div class="outer-card">
+              <div class="inner-box">
+                <div class="thumbnail-wrapper">
+                  <img class="thumb" src="${video.thumbnail}" alt="Thumbnail" />
+                </div>
+                <div class="video-title">${video.title}</div>
+              </div>
+            </div>
+          </a>
+        `;
+
+        container.appendChild(colDiv);
+      });
+
+      // Enable or disable pagination buttons
+      const totalPages = Math.ceil(data.count / limit);
+      document.getElementById("prevPage").classList.toggle("disabled", page <= 1);
+      document.getElementById("nextPage").classList.toggle("disabled", page >= totalPages);
+
+      // Update current page
+      currentPage = page;
+    } else {
+      container.innerHTML = "<p>No suggested videos found for this category.</p>";
+      // Disable buttons if no data
+      document.getElementById("prevPage").classList.add("disabled");
+      document.getElementById("nextPage").classList.add("disabled");
+    }
+  } catch (error) {
+    container.innerHTML = "<p>Error loading suggested videos.</p>";
+    console.error(error);
+  }
+}
+
+// Pagination buttons event listeners
+document.getElementById("prevPage").addEventListener("click", () => {
+  if (currentPage > 1) {
+    loadSuggestedVideos(currentCategory, currentPage - 1);
+  }
+});
+
+document.getElementById("nextPage").addEventListener("click", () => {
+  loadSuggestedVideos(currentCategory, currentPage + 1);
+});
+
+// You need to track current category globally for pagination to work
+let currentCategory = null;
+
+// When calling initially or on category change:
+function onVideoChange(currentVideo) {
+  // Render categories and other stuff...
+  // ...
+
+  currentCategory = currentVideo.category && currentVideo.category.length > 0 ? currentVideo.category[0] : null;
+  loadSuggestedVideos(currentCategory, 1);
+}
+
+
+
 </script>
 
 
