@@ -298,8 +298,8 @@ if (currentId1) {
         // Fill static info
         document.getElementById("video-title").textContent =
           currentVideo.title || "Untitled";
-        document.getElementById("video-description").textContent =
-          currentVideo.description || "";
+        document.getElementById("video-description").innerHTML = renderDescription(currentVideo.description);
+
 
         // Handle tags
         const tagContainer = document.getElementById("video-tags-container");
@@ -361,34 +361,49 @@ if (currentId1) {
       });
   }
 
-  // Called when current video data is loaded or changed
-  function onVideoChange(currentVideo) {
-    // Render categories dynamically
-    const categoryContainer = document.getElementById(
-      "video-categories-container"
-    );
-    categoryContainer.innerHTML = "";
-    (currentVideo.category || []).forEach((category) => {
-      const catBtn = document.createElement("a");
-      catBtn.href = `/category/${encodeURIComponent(category)}`;
-      catBtn.textContent = category;
-      catBtn.className =
-        "badge bg-success text-white me-1 text-decoration-none";
-      categoryContainer.appendChild(catBtn);
+function renderDescription(description) {
+    if (!description) return "";
+
+    // Convert URLs into clickable links
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const htmlDescription = description.replace(urlRegex, (url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary text-decoration-underline">${url}</a>`;
     });
 
-    // Pick the best category (first in list) for suggestions
-    const bestCategory =
-      currentVideo.category && currentVideo.category.length > 0
-        ? currentVideo.category[0]
-        : null;
+    return htmlDescription;
+}
 
-    loadSuggestedVideos(bestCategory);
-  }
+function onVideoChange(currentVideo) {
+    const categoryContainer = document.getElementById("video-categories-container");
+    categoryContainer.innerHTML = "";
 
+    const categories = currentVideo.category || [];
+    if (categories.length === 0) {
+        categoryContainer.innerHTML = "<p>No categories available.</p>";
+        return;
+    }
 
-  let currentPage = 1;
-const limit = 36; // Items per page
+    categories.forEach((category) => {
+        const catBtn = document.createElement("a");
+        catBtn.href = "javascript:void(0)";
+        catBtn.textContent = category;
+        catBtn.className = "badge bg-success text-white me-1 text-decoration-none";
+        catBtn.onclick = () => {
+            currentCategory = category;
+            currentPage = 1;
+            loadSuggestedVideos(category, 1);
+        };
+        categoryContainer.appendChild(catBtn);
+    });
+
+    currentCategory = categories[0];
+    currentPage = 1;
+    loadSuggestedVideos(currentCategory, currentPage);
+}
+
+let currentPage = 1;
+const limit = 36;
+let currentCategory = null;
 
 async function loadSuggestedVideos(category, page = 1) {
   const container = document.getElementById("suggestedVideos");
@@ -405,13 +420,12 @@ async function loadSuggestedVideos(category, page = 1) {
     );
     const data = await response.json();
 
-    if (data.status === "success" && data.count > 0) {
-      container.innerHTML = ""; // Clear existing cards
+    if (data.status === "success" && data.data.length > 0) {
+      container.innerHTML = "";
 
       data.data.forEach((video) => {
         const colDiv = document.createElement("div");
         colDiv.className = "col";
-
         colDiv.innerHTML = `
           <a href="video.html?id=${video.id}" class="text-decoration-none text-dark">
             <div class="outer-card">
@@ -424,22 +438,25 @@ async function loadSuggestedVideos(category, page = 1) {
             </div>
           </a>
         `;
-
         container.appendChild(colDiv);
       });
 
-      // Enable or disable pagination buttons
       const totalPages = Math.ceil(data.count / limit);
       document.getElementById("prevPage").classList.toggle("disabled", page <= 1);
       document.getElementById("nextPage").classList.toggle("disabled", page >= totalPages);
-
-      // Update current page
       currentPage = page;
     } else {
-      container.innerHTML = "<p>No suggested videos found for this category.</p>";
-      // Disable buttons if no data
-      document.getElementById("prevPage").classList.add("disabled");
-      document.getElementById("nextPage").classList.add("disabled");
+      if (page > 1) {
+        // Fallback to previous page
+        alert("No more videos!");
+        currentPage--;
+        document.getElementById("nextPage").classList.add("disabled");
+        loadSuggestedVideos(category, currentPage);
+      } else {
+        container.innerHTML = "<p>No suggested videos found for this category.</p>";
+        document.getElementById("prevPage").classList.add("disabled");
+        document.getElementById("nextPage").classList.add("disabled");
+      }
     }
   } catch (error) {
     container.innerHTML = "<p>Error loading suggested videos.</p>";
@@ -447,29 +464,13 @@ async function loadSuggestedVideos(category, page = 1) {
   }
 }
 
-// Pagination buttons event listeners
+// Pagination Buttons:
 document.getElementById("prevPage").addEventListener("click", () => {
-  if (currentPage > 1) {
-    loadSuggestedVideos(currentCategory, currentPage - 1);
-  }
+  if (currentPage > 1) loadSuggestedVideos(currentCategory, currentPage - 1);
 });
-
 document.getElementById("nextPage").addEventListener("click", () => {
   loadSuggestedVideos(currentCategory, currentPage + 1);
 });
-
-// You need to track current category globally for pagination to work
-let currentCategory = null;
-
-// When calling initially or on category change:
-function onVideoChange(currentVideo) {
-  // Render categories and other stuff...
-  // ...
-
-  currentCategory = currentVideo.category && currentVideo.category.length > 0 ? currentVideo.category[0] : null;
-  loadSuggestedVideos(currentCategory, 1);
-}
-
 
 
 </script>
