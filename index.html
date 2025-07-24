@@ -8,87 +8,75 @@
  
 
   <style>
-    body {
-      font-family: 'Raleway', sans-serif;
-      background: #f8f9fa;
+  .logo {
+    font-size: 2.2rem;
+    color: #d63384;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .keywords {
+    font-size: 0.95rem;
+    color: gray;
+  }
+
+  .keywords a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .keywords a:hover {
+    color: #d63384;
+    text-decoration: underline;
+  }
+
+  .outer-card {
+    border: 1px solid #ccc;
+    padding: 5px;
+    height: 100%;
+  }
+
+  .inner-box {
+    border: 2px solid #dc3545;
+    display: flex;
+    flex-direction: column;
+    height: 360px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .thumbnail-wrapper {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-title {
+    height: 60px;
+    padding: 5px 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
     }
-
-    .logo {
-      font-size: 2.5rem;
-      color: #e60073;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .logo img {
-      height: 40px;
-    }
-
-    .navbar {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .keywords a {
-      text-decoration: none;
-      color: #555;
-      font-weight: 500;
-      margin-right: 12px;
-    }
-
-    .keywords a:hover {
-      color: #e60073;
-    }
-
-    .outer-card {
-      border: none;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .outer-card:hover {
-      transform: scale(1.02);
-    }
-
-    .thumbnail-wrapper {
-      height: 200px;
-      overflow: hidden;
-    }
-
- .thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-  will-change: transform; /* GPU optimization */
-  backface-visibility: hidden;
-}
-
-.outer-card:hover .thumb {
-  transform: scale(1.03); /* Subtle and smooth */
-}
-
-
-
-    .video-title {
-      padding: 12px;
-      font-weight: 600;
-      color: #333;
-      font-size: 1rem;
-    }
-
-    footer {
-      background: #fff;
-      border-top: 1px solid #eee;
-      padding: 20px;
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #999;
-    }
-  </style>
+  }
+</style>
 
   <style>
   .logo {
@@ -104,6 +92,15 @@
     height: 28px;
     vertical-align: middle;
   }
+</style>
+<style>
+/* Create a custom Bootstrap-like class for 5 cards per row */
+@media (min-width: 992px) {
+  .col-lg-2-4 {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+}
 </style>
 
 </head>
@@ -172,7 +169,7 @@ loadTopCategories();
 
     <!-- Center Cards -->
     <div class="col-md-8">
-      <div class="row g-5" id="video-container">
+      <div class="row g-3" id="video-container">
         <!-- Cards will be injected here -->
       </div>
 
@@ -190,7 +187,6 @@ loadTopCategories();
 
   </div>
 </div>
-
 <script>
 let currentPage = 1;
 
@@ -204,28 +200,28 @@ function loadVideos(page) {
 
       if (data.length === 0) {
         container.innerHTML = "<h4 class='text-center my-5'>No more videos found.</h4>";
-        document.getElementById('nextBtn').disabled = true;
         return;
       }
 
       data.forEach(video => {
         const card = `
-          <div class="col-6 col-md-4 col-lg-3">
-            <a href="video.html?id=${video.id}" class="text-decoration-none">
+          <div class="col-6 col-md-4 col-lg-2-4"> <!-- 5 cards per row -->
+            <a href="video.html?id=${video.id}" class="text-decoration-none text-dark">
               <div class="outer-card">
-                <div class="thumbnail-wrapper">
-                 <img class="thumb"  src="${video.thumbnail}" loading="lazy" />
+                <div class="inner-box">
+                  <div class="thumbnail-wrapper">
+                    <img class="thumb" src="${video.thumbnail}" alt="Thumbnail">
+                  </div>
+                  <div class="video-title">${video.title}</div>
                 </div>
-                <div class="video-title">${video.title}</div>
               </div>
             </a>
           </div>`;
         container.insertAdjacentHTML('beforeend', card);
       });
 
-      // Enable/Disable buttons
+      // Pagination buttons
       document.getElementById('prevBtn').disabled = page <= 1;
-      document.getElementById('nextBtn').disabled = data.length < 60;
     });
 }
 
@@ -245,6 +241,7 @@ document.getElementById('nextBtn').addEventListener('click', () => {
   loadVideos(currentPage);
 });
 </script>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

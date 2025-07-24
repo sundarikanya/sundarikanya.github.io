@@ -18,44 +18,47 @@
     }
 
     .outer-card {
-      border: 1px solid #ccc;
-      padding: 5px;
-      height: 100%;
-    }
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  height: 100%;
+}
 
-    .inner-box {
-      border: 2px solid #dc3545;
-      display: flex;
-      flex-direction: column;
-      height: 320px;
-      overflow: hidden;
-      background: white;
-    }
+.outer-card:hover {
+  transform: scale(1.02);
+}
 
-    .thumbnail-wrapper {
-      flex: 1;
-      overflow: hidden;
-    }
+.inner-box {
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+}
 
-    .thumb {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.thumbnail-wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .video-title {
-      height: 60px;
-      padding: 5px 8px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      background-color: #fff;
-      border-top: 1px solid #eee;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+.thumbnail-wrapper img.thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-title {
+  padding: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  background-color: #f8f9fa;
+}
   </style>
 </head>
 <body>
@@ -130,110 +133,129 @@ async function loadTopCategories() {
 loadTopCategories();
 </script>
 
+<!-- Bootstrap 5 & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
+<!-- Main Video Player Section -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
 
-<div class="container mb-4">
-  <div class="row">
-    <div class="col-lg-8 offset-lg-2">
-      
-      <!-- Video -->
-      <div class="ratio ratio-16x9 mb-3">
-        <video id="videoPlayer" controls class="w-100" style="max-height: 480px;">
+      <!-- Video Player -->
+      <div class="ratio ratio-16x9 rounded shadow-sm mb-4">
+        <video id="videoPlayer" controls class="w-100 rounded" style="max-height: 480px;">
           <source id="videoSource" src="" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
 
-      <!-- Previous / Next -->
-      <div class="d-flex justify-content-between mb-3">
-        <div class="text-start">
-          <button id="prevBtn" class="btn btn-outline-primary">&larr; Previous</button>
-        </div>
-        <div class="text-end">
-          <button id="nextBtn" class="btn btn-outline-primary">Next &rarr;</button>
+      <!-- Prev/Next Buttons -->
+      <div class="d-flex justify-content-between mb-4">
+        <button id="prevBtn" class="btn btn-outline-primary">
+          <i class="bi bi-arrow-left"></i> Previous
+        </button>
+        <button id="nextBtn" class="btn btn-outline-primary">
+          Next <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="card shadow-sm p-3 mb-4 rounded-4">
+        <div class="row text-center g-3">
+          <div class="col">
+            <button id="likeBtn" class="btn btn-light w-100">
+              <i class="bi bi-hand-thumbs-up-fill text-danger me-1"></i>
+              <span id="likeCount">0</span> Likes
+            </button>
+          </div>
+          <div class="col">
+            <button id="shareBtn" class="btn btn-light w-100">
+              <i class="bi bi-share-fill text-primary me-1"></i>
+              <span id="shareCount">0</span> Shares
+            </button>
+          </div>
+          <div class="col">
+            <div class="btn btn-light w-100 disabled">
+              <i class="bi bi-eye-fill text-secondary me-1"></i>
+              <span id="viewCount">0</span> Views
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Like, Views, Share aligned like Previous/Next -->
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        
-        <!-- Like -->
-        <button id="likeBtn" class="btn btn-danger">
-          <i class="bi bi-hand-thumbs-up-fill me-2"></i> 
-          <span id="likeCount">0</span> Likes
-        </button>
-        
-        <!-- Views -->
-        <div class="btn btn-outline-secondary disabled">
-          <i class="bi bi-eye-fill me-2"></i> 
-          <span id="viewCount">0</span> Views
-        </div>
-        
-        <!-- Share -->
-        <button id="shareBtn" class="btn btn-primary">
-          <i class="bi bi-share-fill me-2"></i> 
-          <span id="shareCount">0</span> Shares
-        </button>
+      <!-- Title & Description -->
+      <h4 id="video-title" class="fw-semibold mb-2 text-primary">Loading title...</h4>
+      <p id="video-description" class="text-muted mb-3">Loading description...</p>
 
-      </div>
-
-
-      <!-- Title and Description -->
-      <h4 class="fw-semibold" id="video-title">Loading title...</h4>
-      <p class="text-muted" id="video-description">Loading description...</p>
-
-      <!-- Tags and Category -->
-      <p><strong>Tag:</strong> <span id="video-tags-container"></span></p>
-      <p><strong>Category:</strong> <span id="video-categories-container"></span></p>
+      <!-- Tags & Category -->
+      <p><strong>Tags:</strong> <span id="video-tags-container" class="badge text-bg-light"></span></p>
+      <p><strong>Category:</strong> <span id="video-categories-container" class="badge bg-secondary"></span></p>
 
     </div>
   </div>
 </div>
 
-
-<div class="container mt-4">
-  <h5 class="mb-3">Suggested Videos</h5>
-  <div id="suggestedVideos" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
-    <!-- Dynamic cards injected here -->
+<!-- Suggested Videos -->
+<div class="container">
+  <h4 class="fw-bold mb-4">Suggested Videos</h4>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4" id="suggestedVideos">
+    <!-- Cards dynamically inserted here -->
   </div>
 
-  <nav aria-label="Suggested videos pagination">
-    <ul class="pagination justify-content-center mt-3">
-      <li class="page-item" id="prevPage">
-        <button class="page-link">Previous</button>
-      </li>
-      <li class="page-item" id="nextPage">
-        <button class="page-link">Next</button>
-      </li>
-    </ul>
-  </nav>
+  <!-- Pagination Buttons -->
+  <div class="d-flex justify-content-center mt-4 gap-3">
+    <button id="prevPage" class="btn btn-outline-secondary">
+      <i class="bi bi-chevron-left"></i> Previous
+    </button>
+    <button id="nextPage" class="btn btn-outline-primary">
+      Next <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
 </div>
 
-<script>
-const shareBtn1 = document.getElementById('shareBtn');
-
-shareBtn1.addEventListener('click', () => {
-  const shareData = {
-    title: document.getElementById('video-title').textContent,
-    text: 'Check out this hot model video!',
-    url: window.location.href
-  };
-
-  if (navigator.share) {
-    navigator.share(shareData).then(() => {
-      console.log('Shared successfully!');
-      incrementShareCount();
-    }).catch(err => console.error('Share cancelled:', err));
-  } else {
-    // Fallback: copy link to clipboard
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      alert('Link copied to clipboard!');
-      incrementShareCount();
-    });
+<!-- Optional: Basic CSS Enhancements -->
+<style>
+  #suggestedVideos .card {
+    height: 360px;
+    transition: transform 0.2s ease;
+    overflow: hidden;
+    border-radius: 12px;
   }
-});
 
-</script>
+  #suggestedVideos .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  #suggestedVideos .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  #suggestedVideos .card-title {
+    font-size: 1rem;
+    line-height: 1.2;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .btn:disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .badge {
+    margin-right: 5px;
+  }
+</style>
+
+
+
 
 
 
@@ -241,62 +263,71 @@ shareBtn1.addEventListener('click', () => {
 const params1 = new URLSearchParams(window.location.search);
 const currentId1 = params1.get("id");
 
-// API URLs
+// API base URL
 const baseUrl = "https://loyalitydashboard12.pythonanywhere.com/api";
 
 // DOM Elements
 const likeCount = document.getElementById("likeCount");
 const shareCount = document.getElementById("shareCount");
 const viewCount = document.getElementById("viewCount");
-
 const likeBtn = document.getElementById("likeBtn");
 const shareBtn = document.getElementById("shareBtn");
 
 function loadStats() {
-    fetch(`${baseUrl}/get/stats?id=${currentId1}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === "success") {
-                likeCount.textContent = data.stats.likes;
-                shareCount.textContent = data.stats.shares;
-                viewCount.textContent = data.stats.views;
-            }
-        })
-        .catch(console.error);
+  fetch(`${baseUrl}/get/stats?id=${currentId1}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") {
+        likeCount.textContent = data.stats.likes;
+        shareCount.textContent = data.stats.shares;
+        viewCount.textContent = data.stats.views;
+      }
+    })
+    .catch(console.error);
 }
 
-// Auto increment views
+// Auto-increment views
 function addView() {
-    fetch(`${baseUrl}/get/video?id=${currentId1}`)
-        .then(res => res.json())
-        .then(() => loadStats())
-        .catch(console.error);
+  fetch(`${baseUrl}/get/video?id=${currentId1}`)
+    .then(res => res.json())
+    .then(() => loadStats())
+    .catch(console.error);
 }
 
-// Like button click
+// Like button handler
 likeBtn.addEventListener("click", () => {
-    fetch(`${baseUrl}/like?id=${currentId1}`, { method: "POST" })
-        .then(res => res.json())
-        .then(() => loadStats())
-        .catch(console.error);
+  fetch(`${baseUrl}/like?id=${currentId1}`, { method: "POST" })
+    .then(res => res.json())
+    .then(() => loadStats())
+    .catch(console.error);
 });
 
-// Share button click
+// Share button handler
 shareBtn.addEventListener("click", () => {
-    fetch(`${baseUrl}/share?id=${currentId1}`, { method: "POST" })
-        .then(res => res.json())
+  if (navigator.share) {
+    navigator.share({
+      title: 'Check out this video',
+      text: 'I found this interesting video for you!',
+      url: window.location.href
+    }).then(() => {
+      fetch(`${baseUrl}/share?id=${currentId1}`, { method: "POST" })
         .then(() => loadStats())
         .catch(console.error);
+    }).catch(err => console.warn('Share failed:', err));
+  } else {
+    alert("Sharing not supported on this device.");
+  }
 });
 
 // On page load
 if (currentId1) {
-    addView();  // +1 view on load
-    loadStats();
+  addView();
+  loadStats();
 } else {
-    console.error("ID not found in URL");
+  console.error("Video ID not found in URL");
 }
 </script>
+
 
 
 
@@ -453,11 +484,11 @@ async function loadSuggestedVideos(category, page = 1) {
         const colDiv = document.createElement("div");
         colDiv.className = "col";
         colDiv.innerHTML = `
-          <a href="video.html?id=${video.id}" class="text-decoration-none text-dark">
-            <div class="outer-card">
+          <a href="video.html?id=${video.id}" class="text-decoration-none text-dark h-100 d-block">
+            <div class="outer-card h-100">
               <div class="inner-box">
                 <div class="thumbnail-wrapper">
-                  <img class="thumb" src="${video.thumbnail}" alt="Thumbnail" />
+                  <img class="thumb" src="${video.thumbnail}" alt="${video.title}" />
                 </div>
                 <div class="video-title">${video.title}</div>
               </div>
@@ -472,23 +503,16 @@ async function loadSuggestedVideos(category, page = 1) {
       document.getElementById("nextPage").classList.toggle("disabled", page >= totalPages);
       currentPage = page;
     } else {
-      if (page > 1) {
-        // Fallback to previous page
-        alert("No more videos!");
-        currentPage--;
-        document.getElementById("nextPage").classList.add("disabled");
-        loadSuggestedVideos(category, currentPage);
-      } else {
-        container.innerHTML = "<p>No suggested videos found for this category.</p>";
-        document.getElementById("prevPage").classList.add("disabled");
-        document.getElementById("nextPage").classList.add("disabled");
-      }
+      container.innerHTML = "<p>No suggested videos found for this category.</p>";
+      document.getElementById("prevPage").classList.add("disabled");
+      document.getElementById("nextPage").classList.add("disabled");
     }
   } catch (error) {
     container.innerHTML = "<p>Error loading suggested videos.</p>";
     console.error(error);
   }
 }
+
 
 // Pagination Buttons:
 document.getElementById("prevPage").addEventListener("click", () => {
