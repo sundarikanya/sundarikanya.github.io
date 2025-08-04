@@ -98,40 +98,58 @@
 
 <script>
 async function loadTopCategories() {
+    const categoryList = document.getElementById("categoryList");
+
     try {
         const response = await fetch("https://sundarikanya.vercel.app/api/get/bestcategory");
         const result = await response.json();
 
-        const categoryList = document.getElementById("categoryList");
         categoryList.innerHTML = "";
 
         if (result.status === "success" && result.best_categories.length > 0) {
-            // Limit to 10 or 15 items
-            const topCategories = result.best_categories.slice(0, 15);
+            const topCategories = result.best_categories.slice(0, 6); // You can change limit here
 
             topCategories.forEach((cat, index) => {
                 const li = document.createElement("li");
                 li.className = "list-inline-item";
-                li.innerHTML = `<a href="#" class="text-secondary">${cat.category}</a>`;
+
+                const button = document.createElement("button");
+                button.className = "btn btn-outline-dark category-btn";
+                button.setAttribute("data-category", cat.category);
+                button.innerText = cat.category;
+
+                li.appendChild(button);
                 categoryList.appendChild(li);
 
                 if (index !== topCategories.length - 1) {
                     const separator = document.createElement("li");
-                    separator.className = "list-inline-item";
+                    separator.className = "list-inline-item text-muted";
                     separator.innerText = "|";
                     categoryList.appendChild(separator);
                 }
             });
+
+            // Attach click listeners after DOM is updated
+            document.querySelectorAll('.category-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    currentCategory = button.getAttribute('data-category');
+                    currentQuery = '';
+                    currentPage = 1;
+                    loadVideos(currentPage);
+                });
+            });
+
         } else {
             categoryList.innerHTML = "<li class='list-inline-item'>No categories found</li>";
         }
     } catch (error) {
-        categoryList.innerHTML = "<li class='list-inline-item'>Failed to load categories</li>";
+        categoryList.innerHTML = "<li class='list-inline-item text-danger'>Failed to load categories</li>";
     }
 }
 
 loadTopCategories();
 </script>
+
 
 <!-- Bootstrap 5 & Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -527,3 +545,4 @@ document.getElementById("nextPage").addEventListener("click", () => {
 
 
 </body>
+
