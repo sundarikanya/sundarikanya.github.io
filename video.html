@@ -10,8 +10,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <meta name="7searchppc" content="380f1d861996b205414e9bab9fa56fd0"/>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <!-- Flowplayer -->
+
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+
+
 
     <link rel="stylesheet" href="style.css">
     <style>
@@ -24,7 +31,23 @@
           margin-top: 10px;
         }
 
+      
     </style>
+
+    <style>
+  .video-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 ratio */
+  }
+  .video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
 
 </head>
 
@@ -107,7 +130,11 @@
             }
             
             loadTopCategories();
+
+            
+              
         </script>
+
 
 
 
@@ -116,11 +143,22 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10">
 
-                    <div class="ratio ratio-16x9 rounded shadow-sm mb-4">
-                        <video id="videoPlayer" controls class="w-100 rounded" style="max-height: 480px;">
-                            <source id="videoSource" src="" type="video/mp4" /> Your browser does not support the video tag.
-                        </video>
+                  <!-- Loader -->
+                  <div id="videoLoader" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
                     </div>
+                  </div>
+
+                  <!-- Video Box -->
+                  <div id="videoContainer" class="rounded shadow-sm mb-4 overflow-hidden" style="display: none;">
+                    <video id="plyr-video" class="plyr w-100" controls></video>
+                  </div>
+
+
+
+
+                    
 
                     <div class="d-flex justify-content-between mb-4">
                         <button id="prevBtn" class="btn btn-outline-primary">
@@ -254,223 +292,283 @@
 
 
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const currentId = params.get("id");
 
-        <script>
-            const params = new URLSearchParams(window.location.search);
-              const currentId = params.get("id");
-            
-            
-            
-              if (!currentId) {
-                document.body.innerHTML =
-                  "<h2 class='text-center text-danger mt-5'>Video ID not found in URL.</h2>";
-              } else {
-                const apiUrl = `https://sundarikanya.vercel.app/api/get/sundarikanya?id=${currentId}`;
-            
-                fetch(apiUrl)
-                  .then((res) => res.json())
-                  .then((currentVideo) => {
-                    if (!currentVideo || !currentVideo.videourl) {
-                      document.body.innerHTML =
-                        "<h2 class='text-center text-danger mt-5'>Video not found.</h2>";
-                      return;
-                    }
-            
-                    document.getElementById("video-title").textContent =
-                      currentVideo.title || "Untitled";
-                    document.getElementById("video-description").innerHTML = renderDescription(currentVideo.description);
-            
-            
-                    const tagContainer = document.getElementById("video-tags-container");
-                    tagContainer.innerHTML = "";
-                    (currentVideo.tag || []).forEach((tag) => {
-                      const tagBtn = document.createElement("a");
-                      tagBtn.href = `/tags/${encodeURIComponent(tag)}`;
-                      tagBtn.textContent = tag;
-                      tagBtn.className =
-                        "badge bg-primary text-white me-1 text-decoration-none";
-                      tagContainer.appendChild(tagBtn);
-                    });
-            
-                    const videoUrls = Array.isArray(currentVideo.videourl)
-                      ? currentVideo.videourl
-                      : [currentVideo.videourl];
-                    const videoSource = document.getElementById("videoSource");
-                    const videoPlayer = document.getElementById("videoPlayer");
-                    const prevBtn = document.getElementById("prevBtn");
-                    const nextBtn = document.getElementById("nextBtn");
-            
-                    let currentIndex = 0;
-            
-                    function updateVideo(index) {
-                      videoSource.src = videoUrls[index];
-                      videoPlayer.load(); 
-                    }
-            
-                    updateVideo(currentIndex);
-            
-                    prevBtn.addEventListener("click", () => {
-                      if (currentIndex > 0) {
-                        currentIndex--;
-                        updateVideo(currentIndex);
-                      }
-                    });
-            
-                    nextBtn.addEventListener("click", () => {
-                      if (currentIndex < videoUrls.length - 1) {
-                        currentIndex++;
-                        updateVideo(currentIndex);
-                      }
-                    });
-            
-                    if (videoUrls.length <= 1) {
-                      prevBtn.style.display = "none";
-                      nextBtn.style.display = "none";
-                    }
-            
-                    onVideoChange(currentVideo);
-                  })
-                  .catch((error) => {
-                    console.error("Failed to load video:", error);
-                    document.body.innerHTML =
-                      "<h2 class='text-center text-danger mt-5'>Error loading video. Please try again.</h2>";
-                  });
-              }
-            
-            function renderDescription(description) {
-                  if (!description) return "";
+  const loader = document.getElementById("videoLoader");
+  const videoContainer = document.getElementById("videoContainer");
 
-                  const escapeHTML = (str) =>
-                      str.replace(/&/g, "&amp;")
-                        .replace(/</g, "&lt;")
-                        .replace(/>/g, "&gt;")
-                        .replace(/"/g, "&quot;")
-                        .replace(/'/g, "&#039;");
+  if (!currentId) {
+    document.body.innerHTML = "<h2 class='text-center text-danger mt-5'>Video ID not found in URL.</h2>";
+    return;
+  }
 
-                  const escaped = escapeHTML(description).replace(/\n/g, "<br>");
+  const apiUrl = `https://sundarikanya.vercel.app/api/get/sundarikanya?id=${currentId}`;
+  let currentIndex = 0;
+  let videoUrls = [];
+  let plyrPlayer;
 
-                  const urlRegex = /(https?:\/\/[^\s<]+)/g;
-                  const htmlWithLinks = escaped.replace(urlRegex, (url) => {
-                      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-decoration-underline text-primary fw-semibold">${url}</a>`;
-                  });
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(currentVideo => {
+      if (!currentVideo || !currentVideo.videourl) {
+        document.body.innerHTML = "<h2 class='text-center text-danger mt-5'>Video not found.</h2>";
+        return;
+      }
 
-                  return htmlWithLinks;
-              }
+      document.getElementById("video-title").textContent = currentVideo.title || "Untitled";
+      document.getElementById("video-description").innerHTML = renderDescription(currentVideo.description);
 
-            
-            function onVideoChange(currentVideo) {
-                const categoryContainer = document.getElementById("video-categories-container");
-                categoryContainer.innerHTML = "";
-            
-                const categories = currentVideo.category || [];
-                if (categories.length === 0) {
-                    categoryContainer.innerHTML = "<p>No categories available.</p>";
-                    return;
-                }
-            
-                categories.forEach((category) => {
-                    const catBtn = document.createElement("a");
-                    catBtn.href = `search.html?category=${encodeURIComponent(category)}`;
-                    catBtn.textContent = category;
-                    catBtn.className = "badge bg-success text-white me-1 text-decoration-none";
-                    catBtn.onclick = () => {
-                        currentCategory = category;
-                        currentPage = 1;
-                        loadSuggestedVideos(category, 1);
-                    };
-                    categoryContainer.appendChild(catBtn);
-                });
-            
-                currentCategory = categories[0];
-                currentPage = 1;
-                loadSuggestedVideos(currentCategory, currentPage);
-            }
-            
-            let currentPage = 1;
-            const limit = 36;
-            let currentCategory = null;
-            
-            async function loadSuggestedVideos(category, page = 1) {
-              const container = document.getElementById("suggestedVideos");
-              container.innerHTML = "<p>Loading suggested videos...</p>";
-            
-              if (!category) {
-                container.innerHTML = "<p>No category available for suggestions.</p>";
-                return;
-              }
-            
-              try {
-                const response = await fetch(
-                  `https://sundarikanya.vercel.app/api/get/sundarikanya1?category=${encodeURIComponent(category)}&page=${page}&limit=${limit}`
-                );
-                const data = await response.json();
-            
-                if (data.status === "success" && data.data.length > 0) {
-                  container.innerHTML = "";
-            
-                  data.data.forEach((video) => {
-                    const colDiv = document.createElement("div");
-                    colDiv.className = "col";
-                    colDiv.innerHTML = `
-                      <a href="video.html?id=${video.id}" class="text-decoration-none text-dark h-100 d-block">
-                        <div class="outer-card h-100">
-                          <div class="inner-box">
-                            <div class="thumbnail-wrapper">
-                              <img class="thumb" src="${video.thumbnail}" alt="${video.title}" />
-                            </div>
-                            <div class="video-title">${video.title}</div>
-                          </div>
-                        </div>
-                      </a>
-                    `;
-                    container.appendChild(colDiv);
-                  });
-            
-                  const totalPages = Math.ceil(data.count / limit);
-                  document.getElementById("prevPage").classList.toggle("disabled", page <= 1);
-                  document.getElementById("nextPage").classList.toggle("disabled", page >= totalPages);
-                  currentPage = page;
-                } else {
-                  container.innerHTML = "<p>No suggested videos found for this category.</p>";
-                  document.getElementById("prevPage").classList.add("disabled");
-                  document.getElementById("nextPage").classList.add("disabled");
-                }
-              } catch (error) {
-                container.innerHTML = "<p>Error loading suggested videos.</p>";
-                console.error(error);
-              }
-            }
-            
-            
-            // Pagination Buttons:
-            document.getElementById("prevPage").addEventListener("click", () => {
-              if (currentPage > 1) loadSuggestedVideos(currentCategory, currentPage - 1);
-            });
-            document.getElementById("nextPage").addEventListener("click", () => {
-              loadSuggestedVideos(currentCategory, currentPage + 1);
-            });
-            
-            
-            
-            document.getElementById('searchBtn').addEventListener('click', () => {
-              const query = document.getElementById('searchInput').value.trim();
-              if (query) {
-                const encoded = encodeURIComponent(query);
-                window.location.href = `search.html?query=${encoded}`;
-              }
-            });
-            
-            document.getElementById('searchInput').addEventListener('keyup', (e) => {
-              if (e.key === 'Enter') {
-                document.getElementById('searchBtn').click();
-              }
-            });
-            
-            
-              document.getElementById('logoClick').addEventListener('click', () => {
-                window.location.href = 'index.html';
-              });
-        </script>
+      const tagContainer = document.getElementById("video-tags-container");
+      tagContainer.innerHTML = "";
+      (currentVideo.tag || []).forEach(tag => {
+        const tagBtn = document.createElement("a");
+        tagBtn.href = `/tags/${encodeURIComponent(tag)}`;
+        tagBtn.textContent = tag;
+        tagBtn.className = "badge bg-primary text-white me-1 text-decoration-none";
+        tagContainer.appendChild(tagBtn);
+      });
 
+      onVideoChange(currentVideo);
+
+      videoUrls = Array.isArray(currentVideo.videourl) ? currentVideo.videourl : [currentVideo.videourl];
+
+      const videoElement = document.getElementById("plyr-video");
+      plyrPlayer = new Plyr(videoElement, {
+        controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+      });
+
+      function updateVideo(index) {
+        loader.style.display = "block";
+        videoContainer.style.display = "none";
+
+        plyrPlayer.source = {
+          type: 'video',
+          sources: [{
+            src: videoUrls[index],
+            type: 'video/mp4',
+          }],
+          poster: currentVideo.thumbnail || ''
+        };
+
+        videoElement.addEventListener("loadeddata", () => {
+          loader.style.display = "none";
+          videoContainer.style.display = "block";
+        }, { once: true });
+      }
+
+      updateVideo(currentIndex);
+
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateVideo(currentIndex);
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (currentIndex < videoUrls.length - 1) {
+          currentIndex++;
+          updateVideo(currentIndex);
+        }
+      });
+
+      if (videoUrls.length <= 1) {
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+      }
+    })
+    .catch(error => {
+      console.error("Failed to load video:", error);
+      document.body.innerHTML = "<h2 class='text-center text-danger mt-5'>Error loading video. Please try again.</h2>";
+    });
+
+
+
+function renderDescription(description) {
+  if (!description) return "";
+
+  // --- helpers ---
+  const escapeHTML = (str) =>
+    str.replace(/&/g, "&amp;")
+       .replace(/</g, "&lt;")
+       .replace(/>/g, "&gt;")
+       .replace(/"/g, "&quot;")
+       .replace(/'/g, "&#039;");
+
+  const blueClass = ' class="text-decoration-underline text-primary fw-semibold"';
+  const plainDomains = ["instagram.com", "twitch.tv", "x.com"];
+
+  const isPlainDomain = (url) => plainDomains.some(d => url.includes(d));
+
+  // 1) Escape everything first
+  let html = escapeHTML(description);
+
+  // 2) Convert markdown links [label](url) → placeholder tokens, then restore
+  const mdAnchors = [];
+  html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)'"<>]+)\)/g, (m, label, url) => {
+    const a = `<a href="${url}" target="_blank" rel="noopener noreferrer"${isPlainDomain(url) ? "" : blueClass}>${label}</a>`;
+    const token = `__MDLINK_${mdAnchors.length}__`;
+    mdAnchors.push(a);
+    return token;
+  });
+
+  // 3) Linkify plain URLs NOT inside href="..."
+  //    - negative lookbehind avoids href="..." matches
+  //    - stop before quotes, parens, brackets
+  html = html.replace(/(?<!href=")(https?:\/\/[^\s<>"')\]]+)/g, (url) => {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer"${isPlainDomain(url) ? "" : blueClass}>${url}</a>`;
+  });
+
+  // 4) Restore markdown link placeholders
+  html = html.replace(/__MDLINK_(\d+)__/g, (_, i) => mdAnchors[+i]);
+
+  // 5) Markdown headings
+  html = html.replace(/^### (.*)$/gm, "<h4 class='mt-3 mb-2 fw-bold'>$1</h4>")
+             .replace(/^## (.*)$/gm,  "<h3 class='mt-3 mb-2 fw-bold'>$1</h3>")
+             .replace(/^# (.*)$/gm,   "<h2 class='mt-3 mb-2 fw-bold'>$1</h2>");
+
+  // 6) Bold **text**
+  html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+  // 7) Group consecutive list items (* or -) into a single <ul>
+  const lines = html.split("\n");
+  let out = [];
+  let listItems = [];
+  const flushList = () => {
+    if (listItems.length) {
+      out.push(`<ul class="mb-2">${listItems.join("")}</ul>`);
+      listItems = [];
+    }
+  };
+
+  for (const line of lines) {
+    const m = line.match(/^\s*[-*]\s+(.*)$/);
+    if (m) {
+      listItems.push(`<li>${m[1]}</li>`);
+    } else {
+      flushList();
+      out.push(line);
+    }
+  }
+  flushList();
+
+  // 8) Convert remaining single newlines to <br>
+  html = out.join("\n").replace(/\n/g, "<br>");
+
+  return html;
+}
+
+
+
+  function onVideoChange(currentVideo) {
+    const categoryContainer = document.getElementById("video-categories-container");
+    categoryContainer.innerHTML = "";
+
+    const categories = currentVideo.category || [];
+    if (categories.length === 0) {
+      categoryContainer.innerHTML = "<p>No categories available.</p>";
+      return;
+    }
+
+    categories.forEach(category => {
+      const catBtn = document.createElement("a");
+      catBtn.href = `search.html?category=${encodeURIComponent(category)}`;
+      catBtn.textContent = category;
+      catBtn.className = "badge bg-success text-white me-1 text-decoration-none";
+      categoryContainer.appendChild(catBtn);
+    });
+
+    currentCategory = categories[0];
+    currentPage = 1;
+    loadSuggestedVideos(currentCategory, currentPage);
+  }
+
+  let currentPage = 1;
+  const limit = 36;
+  let currentCategory = null;
+
+  async function loadSuggestedVideos(category, page = 1) {
+    const container = document.getElementById("suggestedVideos");
+    container.innerHTML = "<p>Loading suggested videos...</p>";
+
+    if (!category) {
+      container.innerHTML = "<p>No category available for suggestions.</p>";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://sundarikanya.vercel.app/api/get/sundarikanya1?category=${encodeURIComponent(category)}&page=${page}&limit=${limit}`
+      );
+      const data = await response.json();
+
+      if (data.status === "success" && data.data.length > 0) {
+        container.innerHTML = "";
+        data.data.forEach(video => {
+          const colDiv = document.createElement("div");
+          colDiv.className = "col";
+          colDiv.innerHTML = `
+            <a href="video.html?id=${video.id}" class="text-decoration-none text-dark h-100 d-block">
+              <div class="outer-card h-100">
+                <div class="inner-box">
+                  <div class="thumbnail-wrapper">
+                    <img class="thumb" src="${video.thumbnail}" alt="${video.title}" />
+                  </div>
+                  <div class="video-title">${video.title}</div>
+                </div>
+              </div>
+            </a>
+          `;
+          container.appendChild(colDiv);
+        });
+
+        const totalPages = Math.ceil(data.count / limit);
+        document.getElementById("prevPage").classList.toggle("disabled", page <= 1);
+        document.getElementById("nextPage").classList.toggle("disabled", page >= totalPages);
+        currentPage = page;
+      } else {
+        container.innerHTML = "<p>No suggested videos found for this category.</p>";
+        document.getElementById("prevPage").classList.add("disabled");
+        document.getElementById("nextPage").classList.add("disabled");
+      }
+    } catch (error) {
+      container.innerHTML = "<p>Error loading suggested videos.</p>";
+      console.error(error);
+    }
+  }
+
+  document.getElementById("prevPage").addEventListener("click", () => {
+    if (currentPage > 1) loadSuggestedVideos(currentCategory, currentPage - 1);
+  });
+  document.getElementById("nextPage").addEventListener("click", () => {
+    loadSuggestedVideos(currentCategory, currentPage + 1);
+  });
+
+  document.getElementById('searchBtn').addEventListener('click', () => {
+    const query = document.getElementById('searchInput').value.trim();
+    if (query) {
+      window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+    }
+  });
+  document.getElementById('searchInput').addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+      document.getElementById('searchBtn').click();
+    }
+  });
+  document.getElementById('logoClick').addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+});
+</script>
+
+
+
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
     </body>
