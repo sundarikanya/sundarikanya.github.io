@@ -336,28 +336,9 @@
                       "<h2 class='text-center text-danger mt-5'>Error loading video. Please try again.</h2>";
                   });
               }
-            
-            function renderDescription(description) {
-                  if (!description) return "";
 
-                  const escapeHTML = (str) =>
-                      str.replace(/&/g, "&amp;")
-                        .replace(/</g, "&lt;")
-                        .replace(/>/g, "&gt;")
-                        .replace(/"/g, "&quot;")
-                        .replace(/'/g, "&#039;");
 
-                  const escaped = escapeHTML(description).replace(/\n/g, "<br>");
 
-                  const urlRegex = /(https?:\/\/[^\s<]+)/g;
-                  const htmlWithLinks = escaped.replace(urlRegex, (url) => {
-                      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-decoration-underline text-primary fw-semibold">${url}</a>`;
-                  });
-
-                  return htmlWithLinks;
-              }
-
-            
             function onVideoChange(currentVideo) {
                 const categoryContainer = document.getElementById("video-categories-container");
                 categoryContainer.innerHTML = "";
@@ -471,6 +452,112 @@
                 window.location.href = 'index.html';
               });
         </script>
+
+
+<script>
+
+function renderDescription(description) {
+    if (!description) return "";
+
+    // Escape HTML
+    const escapeHTML = (str) =>
+        str.replace(/&/g, "&amp;")
+           .replace(/</g, "&lt;")
+           .replace(/>/g, "&gt;")
+           .replace(/"/g, "&quot;")
+           .replace(/'/g, "&#039;");
+
+    let html = escapeHTML(description);
+
+    let references = {};
+    html = html.replace(/^\s*\[(\d+)\]:\s*(https?:\/\/\S+)/gm, (m, num, url) => {
+        references[num] = url;
+        return ""; // remove footnote line
+    });
+
+      function decodeHTMLEntities(text) {
+      const txt = document.createElement("textarea");
+      txt.innerHTML = text;
+      return txt.value;
+  }
+
+    html = html.replace(/^#### (.*)$/gm, (match, p1) => 
+        `<h5 class='mt-3 mb-2 fw-bold text-secondary'>${decodeHTMLEntities(p1)}</h5>`);
+
+    html = html.replace(/^### (.*)$/gm, (match, p1) => 
+        `<h4 class='mt-3 mb-2 fw-bold text-secondary'>${decodeHTMLEntities(p1)}</h4>`);
+
+    html = html.replace(/^## (.*)$/gm, (match, p1) => 
+        `<h3 class='mt-3 mb-2 fw-bold text-secondary'>${decodeHTMLEntities(p1)}</h3>`);
+
+    html = html.replace(/^# (.*)$/gm, (match, p1) => 
+        `<h2 class='mt-3 mb-2 fw-bold text-secondary'>${decodeHTMLEntities(p1)}</h2>`);
+
+    html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    
+    html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
+
+    // --- Paragraph + Right-side Image (80/20 layout) ---
+html = html.replace(/([\s\S]*?)\n?\[!\[([^\]]*)\]\((https?:\/\/[^\s)]+)\)\]\((https?:\/\/[^\s)]+)\)/g,
+    `<div class="d-flex align-items-start mb-3" style="flex-wrap: nowrap;">
+        <div style="flex:0 0 80%; max-width:80%; padding-right:1rem;">
+            $1
+        </div>
+        <div style="flex:0 0 20%; max-width:20%;">
+            <a href="$4" target="_blank" rel="noopener noreferrer">
+                <img src="$3" alt="$2" class="img-fluid rounded shadow-sm border" style="width:100%; object-fit:contain;">
+            </a>
+        </div>
+    </div>`);
+
+
+
+        html = html.replace(/^\s*---\s*$/gm, "<hr class='my-3'>");
+
+
+    // --- Inline Links ---
+    html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+        `<a href="$2" target="_blank" rel="noopener noreferrer" class="text-decoration-underline text-primary fw-semibold">$1</a>`);
+
+    // --- Reference Links [IMDb][1] ---
+    html = html.replace(/\[([^\]]+)\]\[(\d+)\]/g, (match, text, num) => {
+        let url = references[num] || "#";
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-decoration-underline text-primary fw-semibold">${text}</a>`;
+    });
+
+    // --- Raw URLs (not already inside <a>) ---
+    html = html.replace(/(^|[^">])(https?:\/\/[^\s<]+)/g, (m, before, url) =>
+        `${before}<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-decoration-underline text-primary fw-semibold">${url}</a>`
+    );
+
+    // --- Bullet Points ---
+    html = html.replace(/(?:^|\n)\* (.*)/g, (m, text) => `<li class="mb-1">${text}</li>`);
+    html = html.replace(/(<li.*<\/li>)/gs, "<ul class='mb-2 ps-4'>$1</ul>");
+
+    // --- Tables ---
+  if (/\|/.test(html)) {
+      // Convert Markdown rows to <tr>
+      html = html.replace(/^\|(.+)\|\s*$/gm, (row) => {
+          const cells = row.split("|").filter(Boolean).map((c, i) =>
+              i === 0 ? `<th>${c.trim()}</th>` : `<td>${c.trim()}</td>`
+          ).join("");
+          return `<tr>${cells}</tr>`;
+      });
+
+      // Wrap each consecutive <tr> block separately
+      html = html.replace(/((?:<tr>.*?<\/tr>\s*)+)/gs, (match) => {
+          return `<table class='table table-bordered table-hover table-sm mt-3 mb-3 align-middle'>${match}</table>`;
+      });
+  }
+
+    // --- Line breaks ---
+    html = html.replace(/\n/g, "<br>");
+
+    return html;
+}
+
+
+</script>
 
 
     </body>
