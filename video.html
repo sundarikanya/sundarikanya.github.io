@@ -111,59 +111,81 @@
 
 
 
+<div class="container my-5">
+  <div class="row justify-content-center">
 
-        <div class="container my-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
+    <!-- Left Sidebar Ad -->
+    <div class="col-lg-2 d-none d-lg-block text-center">
+      <div id="7SADLEFT123" data-7pub="7SADLEFT123"></div>
+    </div>
 
-                    <div class="ratio ratio-16x9 rounded shadow-sm mb-4">
-                        <video id="videoPlayer" controls class="w-100 rounded" style="max-height: 480px;">
-                            <source id="videoSource" src="" type="video/mp4" /> Your browser does not support the video tag.
-                        </video>
-                    </div>
+    <!-- Main Video Area -->
+    <div class="col-lg-8">
 
-                    <div class="d-flex justify-content-between mb-4">
-                        <button id="prevBtn" class="btn btn-outline-primary">
-                            <i class="bi bi-arrow-left"></i> Previous
-                        </button>
-                        <button id="nextBtn" class="btn btn-outline-primary">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-                    </div>
+      <div class="ratio ratio-16x9 rounded shadow-sm mb-4">
+        <video id="videoPlayer" controls class="w-100 rounded" style="max-height: 480px;">
+          <source id="videoSource" src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
-                    <div class="card shadow-sm p-3 mb-4 rounded-4">
-                        <div class="row text-center g-3">
-                            <div class="col">
-                                <button id="likeBtn" class="btn btn-light w-100">
-                                    <i class="bi bi-hand-thumbs-up-fill text-danger me-1"></i>
-                                    <span id="likeCount">0</span> Likes
-                                </button>
-                            </div>
-                            <div class="col">
-                                <button id="shareBtn" class="btn btn-light w-100">
-                                    <i class="bi bi-share-fill text-primary me-1"></i>
-                                    <span id="shareCount">0</span> Shares
-                                </button>
-                            </div>
-                            <div class="col">
-                                <div class="btn btn-light w-100 disabled">
-                                    <i class="bi bi-eye-fill text-secondary me-1"></i>
-                                    <span id="viewCount">0</span> Views
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="d-flex justify-content-between mb-4">
+        <button id="prevBtn" class="btn btn-outline-primary">
+          <i class="bi bi-arrow-left"></i> Previous
+        </button>
+        <button id="nextBtn" class="btn btn-outline-primary">
+          Next <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
 
-                    <h4 id="video-title" class="fw-semibold mb-2 text-primary">Loading title...</h4>
-                    <p id="video-description" class="text-muted mb-3">Loading description...</p>
-
-                    <p><strong>Tags:</strong> <span id="video-tags-container" class="badge text-bg-light"></span></p>
-                    <p><strong>Category:</strong> <span id="video-categories-container"></span></p>
-
-                </div>
+      <div class="card shadow-sm p-3 mb-4 rounded-4">
+        <div class="row text-center g-3">
+          <div class="col">
+            <button id="likeBtn" class="btn btn-light w-100">
+              <i class="bi bi-hand-thumbs-up-fill text-danger me-1"></i>
+              <span id="likeCount">0</span> Likes
+            </button>
+          </div>
+          <div class="col">
+            <button id="shareBtn" class="btn btn-light w-100">
+              <i class="bi bi-share-fill text-primary me-1"></i>
+              <span id="shareCount">0</span> Shares
+            </button>
+          </div>
+          <div class="col">
+            <div class="btn btn-light w-100 disabled">
+              <i class="bi bi-eye-fill text-secondary me-1"></i>
+              <span id="viewCount">0</span> Views
             </div>
-
+          </div>
         </div>
+      </div>
+
+      <h4 id="video-title" class="fw-semibold mb-2 text-primary">Loading title...</h4>
+      <p id="video-description" class="text-muted mb-3">Loading description...</p>
+
+      <p><strong>Tags:</strong> <span id="video-tags-container" class="badge text-bg-light"></span></p>
+      <p><strong>Category:</strong> <span id="video-categories-container"></span></p>
+
+    </div>
+
+    <!-- Right Sidebar Ad -->
+    <div class="col-lg-2 d-none d-lg-block text-center">
+      <div id="7SADRIGHT123" data-7pub="7SADRIGHT123"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Ad Script (include once) -->
+<script src="https://code.adclickppc.com/7s-banner-ad.js"></script>
+<script>
+  (function() {
+    initBannerAd(['7SADLEFT123', 'banner', 2]);
+    initBannerAd(['7SADRIGHT123', 'banner', 2]);
+  })();
+</script>
+
 
         <div class="container">
             <h4 class="fw-bold mb-4">Suggested Videos</h4>
