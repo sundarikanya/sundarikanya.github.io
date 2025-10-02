@@ -1,0 +1,543 @@
+/*
+
+Template: streamlab - Video Streaming WordPress Theme
+Author: Gentechtree
+Version: 1.0
+Design and Developed by: Gentechtree.com
+
+*/
+@media(max-width:1900px) {
+	.gen-style-4 .owl-item.active.gen-first-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: translate(25px, 0px) scale(1.2);
+	}
+	.gen-style-4 .owl-item.active.gen-last-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: translate(-25px, 0px) scale(1.2);
+	}
+	/* .gen-carousel-movies-style-4 .gen-movie-icons ul li.share.top,
+	.gen-carousel-movies-style-4 .gen-movie-icons .movie-actions--link_add-to-playlist>a {
+		padding: 10px;
+		height: 30px;
+		width: 30px;
+	} */
+	.gen-style-4 [data-desk_num="4"] .owl-item.active.gen-first-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: translate(30px, 0px) scale(1.2);
+	}
+	.gen-style-4 [data-desk_num="4"] .owl-item.active.gen-last-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta{
+		transform: translate(-30px, 0px) scale(1.2);
+	}
+}
+@media(max-width:1699px) {
+
+	/*===== Container =====*/
+	.container,
+	.elementor-section.elementor-section-boxed>.elementor-container {
+		max-width: 95%;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gt-slide-content {
+		padding: 0 0 0 50px;
+	}
+}
+
+@media(max-width:1499px) {
+	.gen-appstore-logo,
+	.gen-playstore-logo {
+		height: 38px;
+	}
+
+}
+
+@media(max-width:1400px) {
+	.gen-header-style-3 .gen-bottom-header .navbar .navbar-brand {
+		margin-right: 30px;
+	}
+}
+
+@media(max-width:1366px) {
+	footer#gen-footer {
+		font-size: 14px;
+	}
+	.gen-section-title-box .gen-section-title {
+		font-size: 44px;
+		line-height: 52px;
+	}	
+	header#gen-header .gen-menu-search-block{
+		display:none;
+	}	
+	.gen-verticle-left-movie .gt-verticle-bg-img .playBut span {
+		font-size: 20px;
+		line-height: 30px;
+		width: 150px;
+		top: 80px;
+		left: 20px;
+	}
+	.gen-carousel-movies-style-4 .gen-movie-info h3 {
+		font-size: 16px;
+		line-height: 20px;
+	}
+}
+@media (min-width:1199px) and (max-width: 1366px) {
+	.gen-style-4 .gen-movie-info h3 {
+        font-size: 13px;
+        line-height: 20px;
+	}
+	.gen-style-4 [data-desk_num="4"] .gen-carousel-movies-style-4 .gen-movie-info h3 {
+		font-size: 15px;
+		line-height: 22px;
+	}
+	.gen-carousel-movies-style-4 .gen-movie-action a {
+		font-size: 20px;
+		padding: 10px 20px;
+	}
+	.gen-carousel-movies-style-4 .gen-movie-icons ul li.share.top,
+	.gen-carousel-movies-style-4 .gen-movie-icons .movie-actions--link_add-to-playlist>a{
+		padding: 0px;
+		height: 30px;
+		width: 30px;
+		line-height: 30px;
+		padding:10px;
+	}
+	.gen-style-4 .owl-item.active.gen-first-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: translate(20px, 0px) scale(1.2);
+	}
+	.gen-style-4 .owl-item.active.gen-last-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: translate(-20px, 0px) scale(1.2);
+	}
+	.gen-carousel-movies-style-4 .gen-movie-contain.gen-movie-meta img{
+		height: 170px;
+	}
+	[data-desk_num="4"] .gen-carousel-movies-style-4 .gen-movie-contain.gen-movie-meta img {
+		height: 300px;
+	}	
+	[data-desk_num="6"] .gen-carousel-movies-style-4 .gen-movie-contain.gen-movie-meta img {
+		height: 150px;
+	} 
+	.gen-style-4 .owl-item.active.gen-first-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: translate(25px, 0px) scale(1.2);
+	}
+	.gen-style-4 .owl-item.active.gen-last-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta{
+		transform: translate(-25px, 0px) scale(1.2);
+	}
+}
+
+@media (min-width:768px) and (max-width: 991px) {
+	.gen-verticle-left-movie .gt-verticle-bg-img .playBut{
+		display:none;
+	}
+}
+
+@media(max-width:1299px) {
+	.gen-appstore-logo,
+	.gen-playstore-logo {
+		height: 36px;
+	}
+}
+
+@media(max-width:1199px) {
+	.container,
+	.elementor-section.elementor-section-boxed>.elementor-container {
+		max-width: 960px;
+	}
+	.section-style:before {
+		content: "";
+		position: absolute;
+		right: 100%;
+		top: 0;
+		display: inline-block;
+		width: 100%;
+		height: 100%;
+		background: var(--yellow-color);
+	}
+	.last .gen-process-step.gen-process-2 .gen-before-img {
+		display: none;
+	}
+	.gen-appstore-logo,
+	.gen-playstore-logo {
+		height: 45px;
+	}
+	.gen-style-5 .gen-movie-number {	
+		font-size: 80px;
+		line-height: 80px;
+	}
+	.gen-style-4 .gen-movie-contain.gen-movie-meta{
+	    position: unset;
+		top: 0;
+		transform: scale(1);
+		opacity: 1;
+	}
+	.gen-style-4 .gen-movie-img {
+		display: none;
+	}
+	.gen-carousel-movies-style-4 {
+		background-color: #282828;
+		border-radius: 20px;
+	}
+	.gen-carousel-movies-style-4 .gen-movie-contain.gen-movie-meta img{
+		height:100%;
+	}
+	.gen-style-4 [data-desk_num="2"] .owl-item:nth-child(2) .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta,
+	.gen-style-4 [data-desk_num="3"] .owl-item:nth-child(3) .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta,
+	.gen-style-4 [data-desk_num="4"] .owl-item:nth-child(4) .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta,
+	.gen-style-4 [data-desk_num='5'] .owl-item.active:nth-child(5) .item .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: translate(0px, 0px) scale(1.0);
+	}
+	.gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta,
+	.gen-style-4 .owl-item.active:last-child .gen-carousel-movies-style-4 .gen-movie-contain.gen-movie-meta,
+	.gen-style-4 .owl-item.active:first-child .gen-carousel-movies-style-4 .gen-movie-contain.gen-movie-meta,
+	.gen-style-4 .owl-item.active.gen-last-active .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta,
+	.gen-style-4 .owl-item.active:first-child .gen-carousel-movies-style-4:hover .gen-movie-contain.gen-movie-meta {
+		transform: scale(1);
+	}
+	.gen-carousel-movies-style-4 .gen-movie-action {
+		opacity: 1;
+	}
+	.gen-horizontal-nav-movies .slider-horizontal-thumb {
+		left: 100px;
+		right: auto;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gen-movie-contain .row{
+		flex-wrap: nowrap;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gen-movie-contain .container{
+		max-width: none;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gt-slide-content {
+        padding: 0 0 0 30px;
+    }
+	.gen-verticle-left-movie .gen-movie-contain .gen-movie-info h3 {
+		font-size: 40px;
+		line-height: 50px;
+	}
+	.gen-style-4 .owl-stage-outer {
+		padding: 50px 0 10px;
+	}
+}
+
+@media(max-width:1023px) {
+	.container,
+	.elementor-section.elementor-section-boxed>.elementor-container {
+		max-width: 100%;
+	}
+	footer#gen-footer {
+		font-size: 16px;
+	}
+	.gen-subscribe-block {
+		margin-bottom: 30px;
+	}
+	#gen-footer .gen-footer-style-1  .gen-copyright-footer .row {
+		-ms-flex-direction: row-reverse !important;
+		flex-direction: row-reverse !important;
+	}
+	.content-area .site-main {
+		padding: 90px 0;
+	}
+	.navbar-expand-lg .navbar-toggler {
+		display: block;
+	}
+	.navbar-expand-lg .navbar-collapse.collapse:not(.show) {
+		display: none !important;
+	}
+	.gen-horizontal-nav-movies .movie-info h3 {
+		font-size: 50px;
+		line-height: 60px;
+	}
+	header#gen-header.gen-header-style-3 .gen-bottom-header .navbar{
+		display: flex;
+        align-items: center;
+        justify-content: space-between;
+	}
+	header#gen-header.gen-header-style-3 .gen-bottom-header .gen-header-info-box{
+		margin-left: auto;
+	}
+	header#gen-header.gen-header-style-3.gt-mege-menu .gen-header-info-box {
+        margin: 0 70px 0 0;
+    }
+	.single-movie .content-area .site-main .gen-single-movie-wrapper.style-2{
+        padding: 80px 0 0 !important;
+	}	
+}
+
+@media(max-width:767px) {
+	.gen-section-title-box .gen-section-title {
+		font-size: 38px;
+		line-height: 1.3;
+	}
+	.gen-section-title-box.text-center {
+		margin-bottom: 30px;
+	}
+	#gen-footer .gen-footer-style-1 .gen-copyright-footer .text-right {
+		text-align: center !important;
+	}
+	#gen-footer .gen-footer-style-1 .gen-copyright-footer .gen-copyright {
+		padding: 15px 0;
+		display: inline-block;
+		width: 100%;
+	}
+	.content-area .site-main {
+		padding: 60px 0;
+	}
+	.gen-blog-post .gen-blog-contain {
+		padding: 15px;
+	}
+	.gen-blog-post .gen-post-meta ul li:last-child {
+		margin-top: 0;
+	}
+	.gen-process-step.gen-process-2 .gen-before-img {
+		display: none;
+	}
+	.gen-banner-movies .gen-movie-contain .gen-movie-meta-holder p,
+	.gen-banner-movies .gen-movie-contain .gen-movie-info p {
+		font-size: 16px;
+	}
+	.gen-banner-movies .slider-item,
+	.gen-banner-movies .item {
+		height: 90vh;
+	}
+	.gen-horizontal-nav-movies.gen-banner-movies .item,
+	.gen-horizontal-nav-movies.gen-banner-movies .slider-item{
+		height:800px;
+	}
+	.gen-after-excerpt {
+		display: inline-block;
+		width: 100%;
+	}
+	.gen-after-excerpt .gen-socail-share {
+		margin: 30px 0 0;
+	}
+	.gen-after-excerpt .gen-socail-share ul {
+		margin: 0 0 0 15px;
+	}
+	.gen-comment-area .comments-title,
+	.comment-respond .comment-reply-title {
+		font-size: 28px;
+		line-height: 36px;
+	}.gen-tv-show-tabs .tv-show-title,
+	.gen-horizontal-nav-movies .movie-info h3 {
+		font-size: 30px;
+		line-height: 40px;
+	}
+	.gen-tv-show-tabs .tab-content .gen-episode-title,
+	.gen-header-style-3 .gen-account-holder {
+        margin-right: 0px;
+    }
+	.gen-horizontal-nav-movies .gen-movie-contain .gen-tag-line {
+		font-size: 14px;
+		line-height: 24px;
+	}
+	.gen-horizontal-nav-movies .slider-horizontal-thumb {
+        left: 40px;
+	}
+	.gen-carousel-movies-style-3 .gen-movie-contain .gen-movie-img img{
+		width:100%;
+	}
+}
+
+@media(max-width:575px) {
+	.gen-horizontal-nav-movies .slider-horizontal-thumb {
+		right: 40px;
+		width: 20em;
+	}
+	.gen-horizontal-nav-movies .gen-nav-img {
+		margin: 10px 10px 0 0;
+	}
+	.gen-horizontal-nav-movies .row{
+		padding: 0;
+	}
+	.gen-tv-show-tabs .gen-tv-show-excerpt{
+		width:100%;
+	}
+	.gen-header-style-3 .gen-btn-container{
+		display:none;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gen-movie-contain .row {
+        flex-wrap: wrap;
+		display: block;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gt-slide-content {
+        padding: 0;
+    }
+	.gen-verticle-left-movie .gt-verticle-bg .gt-slide-content .gt-verticle-responsive-img {
+		display:block;
+		margin-bottom: 30px;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gt-slide-content .gt-verticle-responsive-img img{
+		height: 353px;
+		object-fit: cover;
+	}
+	.gen-verticle-left-movie .slider-verticle-thumb .slick-list {
+		height: 290px !important;
+	}
+	.gen-verticle-left-movie .gen-movie-contain .gen-movie-info h3 {
+        font-size: 30px;
+        line-height: 40px;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg .gt-verticle-bg-img{
+		height: unset;
+	}
+	.gen-banner-movies.gen-verticle-left-movie .slider-item,
+	.gen-verticle-left-movie .gt-verticle-bg .slick-list {
+		height: 100% !important;
+	}
+	.gen-verticle-left-movie .slick-slider.slider-verticle-thumb .gen-nav-img img {
+		height: 7.9em;
+	}
+	.gen-verticle-left-movie .slider-nav-contain {
+		margin-bottom: 20px;
+	}
+	.gen-verticle-left-movie .slick-slider.slider-verticle-thumb {
+		right: auto;
+		left: 50px;
+	}
+	.gen-verticle-left-movie .gt-verticle-bg-img .playBut{
+		display:none;
+	}
+	.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img img {
+		height: 80px;
+        width: 80px;
+        max-width: 80px;
+        max-height: 80px;
+	}
+	.gen-single-movie-wrapper.style-2 .gen-movie-contain .gen-movie-side-data h6{
+		font-size: 18px;
+	}
+}
+@media(max-width:479px) {
+	#gen-loading img {
+		height: 60px;
+	}
+	.gen-blog-post .gen-post-meta ul {
+		display: inline-block !important;
+		margin: 0;
+	}
+	.gen-section-title-box .gen-section-title {
+		font-size: 30px;
+		line-height: 1.3;
+	}
+	.gen-subscribe-block .gen-subscribe-img {
+		display: none;
+	}
+	.gen-subscribe-block .gen-subscribe-details {
+		margin-left: 0;
+		text-align: center;
+	}
+	.gen-subscribe-from form input {
+		text-align: center;
+	}
+	.gen-subscribe-from form input[type="submit"] {
+		position: relative;
+		width: 100%;
+	}
+	.gen-after-excerpt .gen-extra-data ul li span:first-child {
+		width: auto;
+	}
+	.gen-after-excerpt .gen-socail-share {
+		margin: 30px 0 0;
+		display: inline-block;
+		width: 100%;
+		text-align: left;
+	}
+	.gen-after-excerpt .gen-socail-share h4 {
+		display: inline-block;
+		width: 100%;
+		margin: 0 0 15px 0;
+	}
+	.gen-after-excerpt .gen-socail-share ul {
+		margin: 0;
+	}
+	footer#gen-footer .gen-footer-style-1 .widget ul.menu li {
+		width: 100%;
+	}
+	header#gen-header .gen-bottom-header .navbar .navbar-brand img {
+		height: 45px;
+	}
+	.gen-comment-area .comments-title,
+	.comment-respond .comment-reply-title {
+		font-size: 24px;
+		line-height: 32px;
+	}
+}
+
+@media(max-width:359px) {
+	.gen-playstore-logo {
+		display: inline-block;
+		width: 51%;
+		height: auto;
+	}
+	.gen-appstore-logo {
+		display: inline-block;
+		width: 51%;
+		height: auto;
+		margin-top: 15px;
+		margin-left: 0;
+	}
+}
+
+@media (min-width:1366px) and (max-width: 1700px) {
+	.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper {
+		height: 410px;
+	}
+}
+@media (min-width:1200px) and (max-width: 1365px) {
+	.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper {
+		height: 380px;
+	}
+}
+@media (min-width:1025px) and (max-width: 1200px) {
+	.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper {
+		height: 280px;
+	}
+	.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img img {
+		height: 80px;
+		width: 80px;
+	}
+}
+@media (min-width:769px) and (max-width: 1024px) {
+	.gen-single-movie-wrapper.style-2 .gt-left-col,
+	.gen-single-movie-wrapper.style-2  .gt-right-col{
+		width:50%;
+		flex: 50%;
+        max-width:50%;
+	}
+	.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper {
+		height: 200px;
+	}
+	.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img img {
+		height: 80px;
+		width: 80px;
+	}
+	.gen-movie-contain .gen-movie-side-data h6{
+		font-size: 16px;
+		font-style: normal;
+		line-height: 26px;
+	}
+}
+
+@media (min-width:768px) and (max-width: 769px) {
+	.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper {
+		height: 130px;
+	}
+	.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img img {
+		height: 80px;
+		width: 80px;
+	}
+	.gen-movie-contain .gen-movie-side-data h6{
+		font-size: 16px;
+		font-style: normal;
+		line-height: 26px;
+	}
+}
+	
+@media (max-width:767px) {
+	.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper {
+		height: 350px;
+	}
+	.single-movie .content-area .site-main .gen-single-movie-wrapper.style-2 {
+        padding: 30px 0 0 !important;
+    }
+	.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter {
+		margin: 30px 0 30px 0;
+		padding: 0 30px;
+	}
+}

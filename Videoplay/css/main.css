@@ -1,0 +1,404 @@
+/*
+Template: streamlab - Video Streaming WordPress Theme
+Author: Gentechtree
+Version: 1.0
+Design and Developed by: Gentechtree.com
+
+*/
+.gen-video-holder .wpulike { display: none; }
+.movie-grid .gen-movie-add .dropdown-menu a { position: relative; }
+.movie-grid .gen-movie-add .dropdown-menu a.toggle-playlist:before { content: "\2610"; padding-right: 15px; font-size: 18px; width: 18px; height: 18px; background-repeat: no-repeat; background-position: left; }
+.movie-grid .gen-movie-add .dropdown-menu a.toggle-playlist.added:before { content: '\2611'; padding-right: 10px; font-size: 18px; width: 18px; height: 18px; background-repeat: no-repeat; background-position: left; }
+.movie-grid .gen-movie-add .dropdown-menu a:last-child:before { content: '\002B'; padding-right: 10px; font-size: 18px; width: 18px; height: 18px; }
+.mCSB_inside>.mCSB_container { margin-right: 15px; }
+.wpulike.wpulike-default { display: none; }
+.toggle-playlist.added { color: var(--primary-color) !important; }
+.wpulike.wpulike-heart a i { color: var(--white-color); }
+.wpulike.wpulike-heart a.liked i { color: var(--primary-color); }
+.gen-single-movie-info .gen-excerpt, .gen-single-video-info .gen-excerpt { display: inline-block; width: 100%; font-size: 18px; }
+.gen-single-tv-show-info .gen-excerpt { display: inline-block; width: 100%; font-size: 18px; margin-bottom: 30px; }
+.gen-episode-contain .gen-episode-info h3 { font-size: 20px; line-height: 28px; font-weight: 400; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.gen-movie-contain-style-2 .gen-movie-meta-holder ul.gen-meta-after-title li:first-child:before { display: none; }
+.gen-banner-movies .gen-movie-contain .gen-movie-meta-holder ul li a.gen-imgb-link { background: none; }
+.gen-movie-contain-style-2 .gen-movie-meta-holder ul.gen-meta-after-title li a.gen-imgb-link { background: none; }
+.gen-movie-contain-style-3 .gen-movie-meta-holder ul li a.gen-imgb-link { background: none; }
+.gen-gtranslate { display: none; }
+.gen-banner-movies.banner-style-2 .pmpro_content_message { display: none; }
+.gen-banner-movies.banner-style-3 .pmpro_content_message { display: none; }
+.gen-banner-movies .pmpro_content_message { display: none; }
+.pmpro-level-required .gen-excerpt p { display: none; }
+.pmpro-level-required .gen-video-holder p { display: none; }
+.pms-login-error{ position:relative !important; }
+
+/*================================================
+Blog Sidebar
+================================================*/
+.widget.gen-media-siderbar .gen-genre { margin-top: 10px; }
+.widget.gen-media-siderbar .gen-genre li { padding: 0; margin: 0 0 8px; }
+.widget.gen-media-siderbar .gen-genre > li a{ padding: 0; }
+.widget.gen-media-siderbar .gen-genre > li a:before {  content: '\f07c'; font-weight: 400; font-size: 14px;     font-family: "Font Awesome 5 Free"; padding-right: 10px; }
+.widget.gen-media-siderbar .gen-genre > li:last-child { margin-bottom: 0; }
+
+
+/**/
+.widget.gen-media-siderbar .gen-tag { margin-top: 10px; }
+.widget.gen-media-siderbar .gen-tag li { padding: 4px 8px; margin: 0 4px 8px 0; display: inline-block;  font-size: 15px;   color: var(--white-color);
+    background: var(--primary-color);
+ }
+ .widget.gen-media-siderbar .gen-tag li:hover { color: var(--white-color);
+    background: var(--primarydark-color);
+ }
+.widget.gen-media-siderbar .gen-tag > li a { padding: 0; color: var(--white-color); }
+.widget.gen-media-siderbar .gen-tag > li a:hover { color: var(--white-color); }
+
+/**/
+.widget.gen-media-siderbar .masvideos-search { margin-top: 10px; position: relative; }
+.widget.gen-media-siderbar .masvideos-search input {  color: var(--white-color);
+    background: var(--dark-color); border-color: var(--dark-color); }
+
+.widget.gen-media-siderbar .masvideos-search input:focus, .widget.gen-media-siderbar .masvideos-search input:hover  {  border-color: var(--primary-color); }
+
+.widget.gen-media-siderbar .masvideos-search button { border: none; padding: 0;     font-size: 0; position: absolute; text-align: center; color: var(--white-color) !important; line-height: 54px; height: 54px; width: 54px; top: 0; right: 0; transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out; -moz-transition: all 0.5s ease-in-out; -ms-transition: all 0.5s ease-in-out; -o-transition: all 0.5s ease-in-out; -webkit-transition: all 0.5s ease-in-out; }
+.widget.gen-media-siderbar .masvideos-search button:before { content: "\f002"; font-family: "Font Awesome 5 Free"; font-weight: 600;     font-size: 16px;  }
+.widget.gen-media-siderbar .masvideos-search button:hover { color: var(--white-color) !important; background: var(--primarydark-color); outline: none; }
+
+/**/
+.widget.gen-media-siderbar ul .masvideos-layered-nav-rating:first-child { margin-top: 10px; }
+.widget.gen-media-siderbar ul .masvideos-layered-nav-rating { padding: 0; margin: 0;  color: var(--white-color);
+ }
+ .widget.gen-media-siderbar ul .masvideos-layered-nav-rating a { display: flex;     padding: 0;
+    justify-content: space-between; }
+.widget.gen-media-siderbar ul .masvideos-layered-nav-rating  .star-rating .star {
+    color: var(--primary-color);
+
+    font-size: 16px;
+    height: 16px;
+    line-height: 2;}
+
+
+.gen-banner-movies.banner-style-2 .pmpro_content_message
+{
+    display:none;
+}
+.gen-banner-movies.banner-style-3 .pmpro_content_message
+{
+    display:none;
+}
+.gen-banner-movies .pmpro_content_message
+{
+    display:none;
+}
+.pmpro-level-required .gen-excerpt p {display:none;}
+.pmpro-level-required .gen-video-holder p {display:none;}
+.pms-login-error{ position:relative !important; }
+/* Show Account Button In Mobile Devide */
+@media(max-width:479px) {
+    .gen-menu-search-block, .gen-sidebar, .gen-toggle-btn
+    {
+        /*display: none !important;*/
+    }
+    header#gen-header.gen-header-style-1 .gen-header-info-box 
+    { 
+        /*display: block !important; */
+    }
+    
+}
+.admin-bar header#gen-header.gen-header-style-1
+{
+    top: 0;
+}
+.admin-bar header#gen-header.gen-header-style-1.gen-has-sticky.gen-header-sticky
+{
+    top: 32px;
+}
+
+.search-form select{
+    margin-top: 8px;
+    background-color: var(--dark-color);
+    border-color: var(--dark-color);
+}
+.widget select, .widget select.form-control {
+    margin-top: 8px;
+}
+
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+	background-color: var(--primarydark-color) !important; /* Scroll thumb color */
+}
+.mCSB_scrollTools .mCSB_draggerRail {
+	background-color:var(--primarydark-color) !important; /* Track color */
+}
+
+/* Single move style 2 */
+
+.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper{
+	height:570px;
+	position:relative;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-video-card {
+	background: rgba(34, 31, 31, 0.9);
+	border-radius: 12px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-contain {
+	display: flex;
+	/* align-items: center; */
+}
+
+.gen-single-movie-wrapper.style-2 .gt-right-content{
+	margin:0 0 20px 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img{
+	position: relative;
+	margin:0 20px 0 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img img{
+    max-width: 180px;
+    max-height: 100px;
+	position: relative;
+	overflow: hidden;
+	object-fit: cover;
+	border-radius: 12px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-action{
+	position: absolute;
+    transform: translate(-50%, -50%) scale(0);
+    left: 50%;
+    top: 50%;
+	opacity: 0;
+	visibility: hidden;
+	transition: all .3s ease-in-out;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movies-style-side:hover .gen-movie-action{
+	opacity: 1;
+	visibility: visible;
+	transform: translate(-50%, -50%) scale(1);
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-action .gen-button{
+	border-radius: 50%;
+    padding: 0 0px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-action .gen-button i {
+    margin-right: 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-side-bottom{
+	font-size: 14px;
+	line-height: 24px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-side-bottom a{
+	padding: 0 0 0 5px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter .gt-filter-genre-btn{
+	margin: 0 5px;
+    display: block;
+    border-radius: 5px;
+    /* padding: 0 15px; */
+    font-size: 15px;
+    text-align: center;
+    /* line-height: 25px; */
+    background-color: rgba(34, 31, 31, 0.9);
+    color: var(--white-color);
+}
+.gen-single-movie-wrapper.style-2 .owl-nav button i{
+	font-size: 24px;
+	line-height: 32px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter .gt-filter-genre-btn:hover{
+	background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter .gt-filter-genre-btn.active{
+	background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter{
+	margin:0 0 30px 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter button.owl-prev,
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter button.owl-next{
+	top: -18px;
+}
+.gen-single-movie-wrapper.style-2 .gen-video-holder-plyr #gt-player{
+	border-radius: 12px;
+}
+.gt-player-side-video-wrapper.loading {
+    position: relative;
+    filter: blur(2px);
+    pointer-events: none;
+}
+.loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(34, 31, 31, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+.loadmore-overlay-icon i{
+	font-size: 42px;
+}
+
+.tv-episodstyle-2 .gt-right-col .gt-player-side-video-wrapper .gen-side-bottom span{
+    margin-right: 10px;
+    position: relative;
+}
+.tv-episodstyle-2 .gt-right-col .gt-player-side-video-wrapper .gen-side-bottom span:before{
+	position: absolute;
+    content: ',';
+    height: 3px;
+    width: 3px;
+    color: var(--primary-color);
+    border-radius: 50%;
+    top: -3px;
+    left: -10px;
+}
+.tv-episodstyle-2 .gt-right-col .gt-player-side-video-wrapper .gen-side-bottom span:first-child:before{
+	position:unset;
+	content:unset;
+}
+
+
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+	background-color: var(--primarydark-color) !important; /* Scroll thumb color */
+}
+.mCSB_scrollTools .mCSB_draggerRail {
+	background-color:var(--primarydark-color) !important; /* Track color */
+}
+
+/* Single move style 2 */
+
+.gen-single-movie-wrapper.style-2 .gt-player-side-video-wrapper{
+	height:570px;
+	position:relative;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-video-card {
+	background: rgba(34, 31, 31, 0.9);
+	border-radius: 12px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-contain {
+	display: flex;
+	/* align-items: center; */
+}
+
+.gen-single-movie-wrapper.style-2 .gt-right-content{
+	margin:0 0 20px 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img{
+	position: relative;
+	margin:0 20px 0 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-img img{
+    max-width: 180px;
+    max-height: 100px;
+	position: relative;
+	overflow: hidden;
+	object-fit: cover;
+	border-radius: 12px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-action{
+	position: absolute;
+    transform: translate(-50%, -50%) scale(0);
+    left: 50%;
+    top: 50%;
+	opacity: 0;
+	visibility: hidden;
+	transition: all .3s ease-in-out;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movies-style-side:hover .gen-movie-action{
+	opacity: 1;
+	visibility: visible;
+	transform: translate(-50%, -50%) scale(1);
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-action .gen-button{
+	border-radius: 50%;
+    padding: 0 0px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-movie-action .gen-button i {
+    margin-right: 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-side-bottom{
+	font-size: 14px;
+	line-height: 24px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-content .gen-side-bottom a{
+	padding: 0 0 0 5px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter .gt-filter-genre-btn{
+	margin: 0 5px;
+    display: block;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: center;
+    background-color: rgba(34, 31, 31, 0.9);
+    color: var(--white-color);
+}
+.gen-single-movie-wrapper.style-2 .owl-nav button i{
+	font-size: 24px;
+	line-height: 32px;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter .gt-filter-genre-btn:hover{
+	background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter .gt-filter-genre-btn.active{
+	background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter{
+	margin:0 0 30px 0;
+}
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter button.owl-prev,
+.gen-single-movie-wrapper.style-2 .gt-right-col .gt-genre-filter button.owl-next{
+	top: -18px;
+}
+.gen-single-movie-wrapper.style-2 .gen-video-holder-plyr #gt-player{
+	border-radius: 12px;
+}
+.gt-player-side-video-wrapper.loading {
+    position: relative;
+    filter: blur(2px);
+    pointer-events: none;
+}
+.loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(34, 31, 31, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+.loadmore-overlay-icon i{
+	font-size: 42px;
+}
+.tv-episodstyle-2 .gt-right-col .gt-player-side-video-wrapper .gen-side-bottom span{
+    margin-right: 10px;
+    position: relative;
+}
+.tv-episodstyle-2 .gt-right-col .gt-player-side-video-wrapper .gen-side-bottom span:before{
+	position: absolute;
+    content: ',';
+    height: 3px;
+    width: 3px;
+    color: var(--primary-color);
+    border-radius: 50%;
+    top: -3px;
+    left: -10px;
+}
+.tv-episodstyle-2 .gt-right-col .gt-player-side-video-wrapper .gen-side-bottom span:first-child:before{
+	position:unset;
+	content:unset;
+}
