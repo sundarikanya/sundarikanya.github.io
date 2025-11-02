@@ -140,7 +140,7 @@
                       <li class="nav-item">
                         <a href="../cast/cast.html" role="button" aria-expanded="false" aria-controls="homePages">
                           <div class="d-flex justify-content-between">
-                            <span class="item-name">Videos</span>
+                            <span class="item-name">Models</span>
                             <span class="menu-icon">
                             </span>
                           </div>
@@ -203,12 +203,7 @@
                             </ul>
                          </div>
                       </li>
-                      <li class="nav-item">
-                         <a class="nav-link shoping-cart-button text-white" href="" data-bs-toggle="offcanvas" data-bs-target="#shoping-cart-toggle" aria-controls="shoping-cart-toggle" aria-label="Open shopping cart">
-                            <i class="ph ph-bag p-0"></i>
-                            <span class="bg-primary text-white shopping-badge">1</span>
-                         </a>
-                      </li>
+                      
                       <li class="nav-item dropdown cust-itemdropdown1" id="itemdropdown1">
                          <a class="nav-link d-flex align-items-center p-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="st-avatar style-1">
@@ -276,68 +271,7 @@
        </nav>
     </header>
     
-    <div class="offcanvas overflow-y-auto widget-shopping-cart-content offcanvas-end offcanvas-sidebar sidebar-container on-rtl end border-0" tabindex="-1" id="shoping-cart-toggle">
-       <div class="offcanvas-header position-relative">
-          <h5 class="offcanvas-title fw-500" id="offcanvasExampleLabel">
-             Shopping cart ( <span class="streamit-cart-count" aria-live="polite">1</span> )
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-       </div>
-       <div class="offcanvas-body">
-          <div class="product-list-content">
-             <ul class="list-unstyled mb-0">
-                <li class="mini-cart-item d-flex align-items-start gap-3">
-                   <div class="cart-img">
-                      <a href="./shop/cart.html" aria-label="Bag Pack">
-                         <img src="images/01.webp" class="img-fluid" width="300" height="400" alt="Bag Pack">
-                      </a>
-                   </div>
-                   <div class="cart-content flex-grow-1">
-                      <div class="d-flex justify-content-between align-items-center">
-                         <a class="d-block" href="./shop/product-detail.html" aria-label="Bag Pack">
-                            <h6 class="fw-500">Bag Pack</h6>
-                         </a>
-                         <a href="javascript:void(0)" class="delete-btn">
-                            <i class="ph ph-trash text-primary"></i>
-                         </a>
-                      </div>
-                      <div class="product-price text-muted">
-                         <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>11.05</span></span>
-                      </div>
-                      <div class="btn-group iq-qty-btn custom-qty-btn rounded-3" data-qty="btn" role="group">
-                         <button type="button" class="btn btn-sm btn-outline-light iq-quantity-minus text-white border-0">
-                            <i class="ph ph-minus"></i>
-                         </button>
-                         <input type="text" class="btn btn-sm btn-outline-light input-display border-0" data-qty="input" pattern="^(0|[1-9][0-9]*)$" minlength="1" maxlength="2" value="2" title="Qty">
-                         <button type="button" class="btn btn-sm btn-outline-light iq-quantity-plus text-white border-0">
-                            <i class="ph ph-plus"></i>
-                         </button>
-                      </div>
-                   </div>
-                </li>
-             </ul>
-          </div>
-       </div>
-       <div class="offcanvas-footer border-top py-3 px-3">
-          <div class="d-flex align-items-center justify-content-between gap-3">
-             <strong>Subtotal:</strong>
-             <span class="st-woocommerce-Price-amount amount"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>11.05</span></span>
-          </div>
-          <div class="mini-cart-buttons d-flex flex-column align-items-center gap-3 mt-4">
-             <div class="iq-button w-100">
-                <a href="./shop/checkout.html" class="btn btn-primary text-capitalize w-100 rounded-3">
-                   <span class="button-text">Checkout</span>
-                </a>
-             </div>
-             <div class="w-100">
-                <a href="./shop/cart.html" class="btn btn-secondary text-capitalize w-100 rounded-3">
-                   <span class="button-text">View
-                      Cart</span>
-                </a>
-             </div>
-          </div>
-       </div>
-    </div>    <!--Nav End-->
+ <!--Nav End-->
 
     <!--bread-crumb-->
     <div class="iq-breadcrumb">
@@ -387,7 +321,11 @@
   let totalPages = 1;
 
   async function loadCast(page = 1) {
-    castWrapper.innerHTML = `<div class="text-center w-100 py-5">Loading...</div>`;
+    const loader = document.querySelector(".simple-loader");
+    if (loader) loader.style.display = "flex"; // ⏳ Show loader
+
+    castWrapper.innerHTML = ""; // clear main content area
+
     try {
       let apiUrl = "";
 
@@ -443,20 +381,20 @@
       console.error(error);
       castWrapper.innerHTML =
         "<div class='text-danger text-center w-100'>Failed to load data.</div>";
+    } finally {
+      if (loader) loader.style.display = "none"; // ✅ Always hide loader
     }
   }
 
   function renderPagination() {
     paginationControls.innerHTML = "";
 
-    // Prev
     paginationControls.innerHTML += `
       <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
         <a class="page-link" href="#" onclick="loadCast(${currentPage - 1})">Previous</a>
       </li>
     `;
 
-    // Pages
     for (let i = 1; i <= totalPages; i++) {
       if (i === currentPage || i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
         paginationControls.innerHTML += `
@@ -469,7 +407,6 @@
       }
     }
 
-    // Next
     paginationControls.innerHTML += `
       <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
         <a class="page-link" href="#" onclick="loadCast(${currentPage + 1})">Next</a>
@@ -477,9 +414,9 @@
     `;
   }
 
-  // Initial Load
-  loadCast();
+  document.addEventListener("DOMContentLoaded", () => loadCast());
 </script>
+
 
 
 
@@ -550,13 +487,13 @@
             <h4 class="footer-link-title text-capitalize">Movies to Watch</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize" href="./view-all-movie.html"><span>Top trending</span></a>
+                <a class="text-capitalize" target="_blank" href="./cast/cast.html"><span>Top trending</span></a>
               </li>
               <li>
-                <a class="text-capitalize" href="./view-all-movie.html"><span>Recommended</span></a>
+                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=desi"><span>Recommended</span></a>
               </li>
               <li>
-                <a class="text-capitalize" href="./view-all-movie.html"><span>Popular</span></a>
+                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=usa"><span>Popular</span></a>
               </li>
             </ul>
           </div>
@@ -564,16 +501,14 @@
             <h4 class="footer-link-title text-capitalize">Quick Links</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize" href="./contact-us.html"><span>contact us</span></a>
+                <a class="text-capitalize" target="_blank" href="./contact/contact-us.html"><span>contact us</span></a>
               </li>
               <li>
-                <a class="text-capitalize" href="./pricing-plan.html"><span>Pricing Plan</span></a>
+                <a class="text-capitalize" target="_blank" href="./pricing-plan.html"><span>Pricing Plan</span></a>
               </li>
+              
               <li>
-                <a class="text-capitalize" href="./blog/blog-listing.html"><span>Blog</span></a>
-              </li>
-              <li>
-                <a class="text-capitalize" href="./faq.html"><span>FAQ</span></a>
+                <a class="text-capitalize" target="_blank" href="./privacy/privacy-policy.html"><span>FAQ</span></a>
               </li>
             </ul>
           </div>
@@ -581,17 +516,13 @@
             <h4 class="footer-link-title text-capitalize">About company</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize" href="./about-us.html"><span>about us</span></a>
+                <a class="text-capitalize" href="./about-us/about-us.html"><span>about us</span></a>
               </li>
+              
               <li>
-                <a class="text-capitalize" href="./shop/shop.html"><span>shop</span></a>
+                <a class="" href="./privacy/privacy-policy.html"><span>privacy policy</span></a>
               </li>
-              <li>
-                <a class="" href="./terms-of-use.html"><span>Terms and Use</span></a>
-              </li>
-              <li>
-                <a class="text-capitalize" href="./privacy-policy.html"><span>privacy policy</span></a>
-              </li>
+              
             </ul>
           </div>
           <div class="col-lg-3 col-sm-6">
@@ -609,22 +540,22 @@
               <div class="social-footer">
                 <ul class="m-0 d-inline list-unstyled widget_social_media d-flex gap-2 flex-wrap">
                   <li>
-                    <a href="https://www.facebook.com/" class="position-relative">
+                    <a href="https://www.facebook.com/" target="_blank" class="position-relative">
                       <i class="icon icon-facebook-share"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://twitter.com/" class="position-relative">
+                    <a href="https://x.com/model_worlds_1" target="_blank" class="position-relative">
                       <i class="ph ph-x-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/" class="position-relative">
+                    <a href="https://www.instagram.com/model.worlds_1/" target="_blank" class="position-relative">
                       <i class="ph ph-instagram-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://github.com/" class="position-relative">
+                    <a href="https://github.com/sanjayengineer121/backenmd_app-sundarikanya" target="_blank" class="position-relative">
                       <i class="ph-fill ph-linkedin-logo"></i>
                     </a>
                   </li>
@@ -639,11 +570,9 @@
       <div class="container-fluid">
         <div class="row align-items-center">
           <div class="col-md-6">
-            <p class="font-size-14 mb-0">© <span class="currentYear"></span> <span class="text-primary">STREAMIT.</span>
+            <p class="font-size-14 mb-0">© <span class="currentYear"></span> <span class="text-primary">ModelWorld.</span>
               All
-              Rights Reserved. All videos and shows on this platform are trademarks of, and all related images and
-              content
-              are the property of, Streamit Inc. Duplication and copy of this is strictly prohibited.</p>
+              Rights Reserved.</p>
           </div>
           <div class="col-md-6 mt-md-0 mt-5">
             <div class="d-flex flex-column align-items-start align-items-md-end widget-iq-download-app">
@@ -752,12 +681,9 @@
      <a class="p-0 btn bg-primary btn-sm position-fixed top border-0 rounded-circle text-white" id="top" href="#top">
         <i class="ph ph-caret-up fw-bold"></i>
      </a>
-  </div>  <!-- Wrapper End-->
-  <!-- Library Bundle Script -->
+  </div>  
   <script src="js/libs.min.js"></script>
-  <!-- Plugin Scripts -->
-  
-  <!-- Sweet-alert Script -->
+ 
   <script src="js/sweetalert2.min.js" async=""></script>
   <script src="js/sweet-alert.js" defer=""></script>
   
@@ -765,7 +691,6 @@
   
   
   
-  <!-- Lodash Utility -->
   <script src="js/lodash.min.js"></script>
   <!-- External Library Bundle Script -->
   <script src="js/external.min.js"></script>
