@@ -7,25 +7,22 @@
   
   <!-- Favicon -->
   <link rel="shortcut icon" href="images/favicon.ico">
-  
-  <!-- Library / Plugin Css Build -->
-  <link rel="stylesheet" href="css/libs.min.css">
-  
-  <!-- font-awesome css -->
+   
   <link rel="stylesheet" href="css/all.min.css">
   
   <!-- Iconly css -->
   <link rel="stylesheet" href="css/style_2.css">
   
   <!-- Animate css -->
-  <link rel="stylesheet" href="css/animate.min.css">
+  <link rel="preload" href="css/animate.min.css" as="style" onload="this.rel='stylesheet'">
+
   
   <!-- SwiperSlider css -->
   <link rel="stylesheet" href="css/swiper.min.css">
   
   
   <!-- Sweetlaert2 css -->
-  <link rel="stylesheet" href="css/sweetalert2.min.css">
+<link rel="preload" href="css/sweetalert2.min.css" as="style" onload="this.rel='stylesheet'">
   
   
   
@@ -36,33 +33,111 @@
   <link rel="stylesheet" href="css/custom.min.css">
   
   <!-- Rtl Css -->
-  <link rel="stylesheet" href="css/rtl.min.css">
+<link rel="preload" href="css/rtl.min.css" as="style" onload="this.rel='stylesheet'">
   
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300&display=swap" rel="stylesheet">
   
-  
-  <!-- Phosphor icons  -->
+  <style>
+    .search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.35s ease;
+  z-index: 9999;
+}
+
+.search-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-card {
+  background: rgba(20, 20, 20, 0.95);
+  padding: 30px;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  transform: scale(0.9);
+  transition: 0.35s ease;
+}
+
+.search-overlay.active .search-card {
+  transform: scale(1);
+}
+
+.search-card h4 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.search-card input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: #111;
+  color: #fff;
+}
+
+.search-card input::placeholder {
+  color: #aaa;
+}
+
+.hint {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg);
+}
+
+  </style>
+
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/style_3.css">
-  
-  <link rel="stylesheet" href="css/style_1.css">
+
   
   
   <link rel="stylesheet" href="css/iconly.css"></head>
 
 <body class=" custom-header-relative ">
   <span class="screen-darken"></span>
-  <!-- loader Start -->
-   <!-- loader Start -->
   <div class="loader simple-loader">
      <div class="loader-body">
         <img src="images/loader.gif" alt="loader" class="img-fluid " width="300">
       </div>
   </div>
-  <!-- loader END -->  <!-- loader END -->
   <main class="main-content">
     <!--Nav Start-->
     <header class="header-center-home header-default header-sticky">
@@ -207,10 +282,10 @@
                             <ul class="dropdown-menu p-0 dropdown-search m-0 iq-search-bar" style="width: 20rem;">
                                <li class="p-0">
                                   <div class="form-group input-group mb-0">
-                                     <input type="text" class="form-control border-0" placeholder="Search...">
-                                     <button type="submit" class="search-submit">
-                                        <i class="ph ph-magnifying-glass"></i>
-                                     </button>
+                                     <input type="text" id="searchInput1" class="form-control border-0" placeholder="Search...">
+                                     <button type="button" class="search-submit" onclick="openSearch1()">
+                                      <i class="ph ph-magnifying-glass"></i>
+                                    </button>
                                   </div>
                                </li>
                             </ul>
@@ -306,6 +381,7 @@
   </div>
 </section>
 
+
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const wrapper = document.getElementById("bannerWrapper");
@@ -388,7 +464,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       wrapper.appendChild(slide);
     });
 
-    // Init Swiper
     new Swiper("#bannerSwiper", {
       loop: true,
       autoplay: { delay: 5000 },
@@ -399,7 +474,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    // Init fslightbox
     refreshFsLightbox();
 
   } catch (err) {
@@ -408,6 +482,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 </script>
+
+
 
 
 <div class="container-fluid">
@@ -439,7 +515,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     <section class="recommended-block section-top-spacing section-wraper">
       <div class="d-flex align-items-center justify-content-between px-1 mb-2 pb-1 mb-md-4 pb-md-0">
         <h4 class="main-title text-capitalize mb-0">Popular USA Models</h4>
-        <a href="cast/cast.html?category=usa" target="_blank" class="text-primary iq-view-all text-decoration-none">View All</a>
+        <a href="cast/cast.html?category=usa" class="text-primary iq-view-all text-decoration-none">View All</a>
       </div>
       <div class="card-style-slider">
         <div class="position-relative swiper swiper-card" data-slide="6" data-laptop="5" data-tab="3" data-mobile="2" data-mobile-sm="2" data-autoplay="false" data-loop="false" data-navigation="true" data-pagination="true">
@@ -498,7 +574,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     <div class="recommended-blocks section-wraper">
       <div class="d-flex align-items-center justify-content-between px-1 mb-2 pb-1 mb-md-4 pb-md-0">
         <h4 class="main-title text-capitalize mb-0">Desi And Indian Models</h4>
-        <a href="cast/cast.html?category=desi" target="_blank" class="text-primary iq-view-all text-decoration-none">View All</a>
+        <a href="cast/cast.html?category=desi" class="text-primary iq-view-all text-decoration-none">View All</a>
       </div>
       
       <div class="card-style-slider">
@@ -515,6 +591,115 @@ document.addEventListener("DOMContentLoaded", async () => {
   </div>
 </div>
 
+<div id="searchOverlay" class="search-overlay">
+  <div class="search-card">
+    
+    <!-- Close Button -->
+    <button class="close-btn" onclick="closeSearch()">✖</button>
+
+    <h4>What are you looking for?</h4>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search videos, categories, creators..."
+    />
+    <p class="hint">Press Enter to search</p>
+  </div>
+</div>
+
+
+
+<script>
+function openSearch() {
+  const overlay = document.getElementById("searchOverlay");
+  const input = document.getElementById("searchInput");
+
+  overlay.classList.add("active");
+
+  setTimeout(() => {
+    input.focus();
+  }, 200);
+}
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("active");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("searchInput");
+  const overlay = document.getElementById("searchOverlay");
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const value = this.value.trim();
+      if (!value) return;
+
+      // Smooth close animation first
+      overlay.classList.remove("active");
+
+      setTimeout(() => {
+        window.location.href = `cast/search.html?query=${encodeURIComponent(value)}`;
+      }, 300);
+    }
+  });
+
+  // Click outside to close
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+});
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("active");
+}
+
+</script>
+
+<script>
+function openSearch1() {
+  const input = document.getElementById("searchInput1");
+
+  overlay.classList.add("active");
+
+  setTimeout(() => {
+    input.focus();
+  }, 200);
+}
+
+function closeSearch1() {
+  document.getElementById("searchOverlay").classList.remove("active");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("searchInput1");
+  const overlay = document.getElementById("searchOverlay");
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const value = this.value.trim();
+      if (!value) return;
+
+      // Smooth close animation first
+      overlay.classList.remove("active");
+
+      setTimeout(() => {
+        window.location.href = `cast/search.html?query=${encodeURIComponent(value)}`;
+      }, 300);
+    }
+  });
+
+  // Click outside to close
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+});
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("active");
+}
+
+</script>
+
 <div class="streamit-mobile-footer-menu" aria-label="Mobile Footer Navigation">
     <ul class="footer-menu list-inline d-flex align-items-center justify-content-between m-0">
         <li class="footer-menu-item">
@@ -527,18 +712,22 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <i class="ph ph-monitor-play d-block  text-center "></i>
                 Models </a>
         </li>
+
         <li class="footer-menu-item">
-            <a href="#" class="menu- font-size-12">
-                <i class="ph ph-magnifying-glass d-block  text-center "></i>
-                Search </a>
+            <a href="javascript:void(0)" class="menu- font-size-12" onclick="openSearch()">
+            <i class="ph ph-magnifying-glass d-block text-center"></i>
+             Search
+              </a>
+
         </li>
+
         <li class="footer-menu-item">
             <a href="tag/tag.html" class="menu-link font-size-12">
                 <i class="ph ph-television d-block  text-center "></i>
                 Cotegary </a>
         </li>
         <li class="footer-menu-item">
-            <a href="#" class="menu-link font-size-12">
+            <a href="./about-us/about-us.html" class="menu-link font-size-12">
                 <i class="ph ph-user d-block  text-center "></i>
                 Profile </a>
         </li>
@@ -581,13 +770,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             <h4 class="footer-link-title text-capitalize">Movies to Watch</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize" target="_blank" href="./cast/cast.html"><span>Top trending</span></a>
+                <a class="text-capitalize"  href="./cast/cast.html"><span>Top trending</span></a>
               </li>
               <li>
-                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=desi"><span>Recommended</span></a>
+                <a class="text-capitalize"  href="cast/cast.html?category=desi"><span>Recommended</span></a>
               </li>
               <li>
-                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=usa"><span>Popular</span></a>
+                <a class="text-capitalize"  href="cast/cast.html?category=usa"><span>Popular</span></a>
               </li>
             </ul>
           </div>
@@ -595,14 +784,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             <h4 class="footer-link-title text-capitalize">Quick Links</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize" target="_blank" href="./contact/contact-us.html"><span>contact us</span></a>
+                <a class="text-capitalize"  href="./contact/contact-us.html"><span>contact us</span></a>
               </li>
               <li>
-                <a class="text-capitalize" target="_blank" href="./pricing-plan.html"><span>Pricing Plan</span></a>
+                <a class="text-capitalize"  href="./pricing-plan.html"><span>Pricing Plan</span></a>
               </li>
               
               <li>
-                <a class="text-capitalize" target="_blank" href="./privacy/privacy-policy.html"><span>FAQ</span></a>
+                <a class="text-capitalize"  href="./privacy/privacy-policy.html"><span>FAQ</span></a>
               </li>
             </ul>
           </div>
@@ -634,22 +823,22 @@ document.addEventListener("DOMContentLoaded", async () => {
               <div class="social-footer">
                 <ul class="m-0 d-inline list-unstyled widget_social_media d-flex gap-2 flex-wrap">
                   <li>
-                    <a href="https://www.facebook.com/" target="_blank" class="position-relative">
+                    <a href="https://www.facebook.com/"  class="position-relative">
                       <i class="icon icon-facebook-share"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://x.com/model_worlds_1" target="_blank" class="position-relative">
+                    <a href="https://x.com/model_worlds_1"  class="position-relative">
                       <i class="ph ph-x-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/model.worlds_1/" target="_blank" class="position-relative">
+                    <a href="https://www.instagram.com/model.worlds_1/"  class="position-relative">
                       <i class="ph ph-instagram-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://github.com/sanjayengineer121/backenmd_app-sundarikanya" target="_blank" class="position-relative">
+                    <a href="https://github.com/sanjayengineer121/backenmd_app-sundarikanya"  class="position-relative">
                       <i class="ph-fill ph-linkedin-logo"></i>
                     </a>
                   </li>
@@ -835,7 +1024,7 @@ async function loadTopTen() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadTopTen);
+
 </script>
 
 <script>
@@ -906,8 +1095,7 @@ async function loadCategoryVideos(category = "usa", page = 1) {
   }
 }
 
-// Load USA category on page load
-document.addEventListener("DOMContentLoaded", () => loadCategoryVideos("usa", 1));
+
 </script>
 
 
@@ -981,8 +1169,7 @@ async function loadActressVideos(category = "desi", page = 1){
   }
 }
 
-// Auto-load actress category on page load
-document.addEventListener("DOMContentLoaded", () => loadActressVideos("desi",1));
+
 </script>
 
 <script>
@@ -1054,7 +1241,6 @@ async function loadInstaVideos(page = 1) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => loadInstaVideos(1));
 </script>
 
 
@@ -1128,8 +1314,33 @@ async function loadModelVideos(page = 1) {
   }
 }
 
-// Auto-load "model" category on page load
-document.addEventListener("DOMContentLoaded", () => loadModelVideos(1));
+
 </script>
+
+<script>
+function lazyLoadSection(id, loaderFn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      loaderFn();
+      observer.disconnect();
+    }
+  }, { rootMargin: "200px" });
+
+  observer.observe(el);
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  lazyLoadSection("topTenList", loadTopTen);
+  lazyLoadSection("categoryListWrapper", () => loadCategoryVideos("usa", 1));
+  lazyLoadSection("actressListWrapper", () => loadActressVideos("desi", 1));
+  lazyLoadSection("instaListWrapper", loadInstaVideos);
+  lazyLoadSection("modelListWrapper", () => loadModelVideos(1));
+});
+</script>
+
 
 </body></html>
