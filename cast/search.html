@@ -11,16 +11,25 @@
   
   <link rel="stylesheet" href="css/all.min.css">
   
-  <link rel="stylesheet" href="css/style_3.css">
-  
-  <link rel="stylesheet" href="css/animate.min.css">
+  <link rel="stylesheet" href="css/style_3.css">  
   
   
+  <link rel="stylesheet" href="css/streamit.min.css">
   
-  <link rel="stylesheet" href="css/sweetalert2.min.css">
+  <link rel="stylesheet" href="css/custom.min.css">
   
-      
-  <style>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300&display=swap" rel="stylesheet">
+  
+  
+  <link rel="stylesheet" href="css/style.css">
+  <!-- <link rel="stylesheet" href="css/style_2.css">
+  
+  <link rel="stylesheet" href="css/style_1.css">
+   -->
+    <style>
     .search-overlay {
   position: fixed;
   inset: 0;
@@ -104,24 +113,6 @@
 }
 
   </style>
-  
-  <link rel="stylesheet" href="css/streamit.min.css">
-  
-  <link rel="stylesheet" href="css/custom.min.css">
-  
-  <link rel="stylesheet" href="css/rtl.min.css">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300&display=swap" rel="stylesheet">
-  
-  
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/style_2.css">
-  
-  <link rel="stylesheet" href="css/style_1.css">
-  
-  
   <link rel="stylesheet" href="css/iconly.css"></head>
 
 <body class="  ">
@@ -282,7 +273,6 @@
                                      <button type="button" class="search-submit" onclick="openSearch1()">
                                       <i class="ph ph-magnifying-glass"></i>
                                     </button>
-
                                   </div>
                                </li>
                             </ul>
@@ -398,7 +388,8 @@
     return urlParams.get(param);
   }
 
-  const category = getQueryParam("category");
+  const category = getQueryParam("query");
+
 
   const castWrapper = document.getElementById("castWrapper");
   const paginationControls = document.getElementById("paginationControls");
@@ -413,11 +404,8 @@
 
     try {
       let apiUrl = "";
-
-      if (category) {
-        apiUrl = `https://sundarikanya.vercel.app/api/get/sundarikanya1?category=${encodeURIComponent(
-          category
-        )}&page=${page}`;
+     if (category) {
+        apiUrl = `https://sundarikanya.vercel.app/api/get/search?query=${encodeURIComponent(category)}&page=${page}`;
       } else {
         apiUrl = `https://sundarikanya.vercel.app/api/get/sundarikanya?page=${page}`;
       }
@@ -437,7 +425,7 @@
           <div class="iq-cast position-relative">
             <div class="cast-images position-relative">
               <a href="../Videoplay/video-detail.html?id=${person.id}">
-                <img src="${person.thumbnail}" class="img-fluid rounded shadow-sm" alt="${person.title}">
+                <img src="${person.thumbnail}" loading="lazy" decoding="async" class="img-fluid rounded shadow-sm" alt="${person.title}">
               </a>
             </div>
             <div class="person-detail text-center mt-2">
@@ -503,6 +491,8 @@
 </script>
 
 
+
+
 <div id="searchOverlay" class="search-overlay">
   <div class="search-card">
     
@@ -518,8 +508,6 @@
     <p class="hint">Press Enter to search</p>
   </div>
 </div>
-
-
 
 <script>
 function openSearch() {
@@ -550,7 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
       overlay.classList.remove("active");
 
       setTimeout(() => {
-        window.location.href = `../cast/search.html?query=${encodeURIComponent(value)}`;
+        window.location.href = `search.html?query=${encodeURIComponent(value)}`;
       }, 300);
     }
   });
@@ -560,10 +548,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === overlay) closeSearch();
   });
 });
-
-function closeSearch() {
-  document.getElementById("searchOverlay").classList.remove("active");
-}
 
 </script>
 
@@ -596,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
       overlay.classList.remove("active");
 
       setTimeout(() => {
-        window.location.href = `../cast/search.html?query=${encodeURIComponent(value)}`;
+        window.location.href = `search.html?query=${encodeURIComponent(value)}`;
       }, 300);
     }
   });
@@ -606,10 +590,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === overlay) closeSearch();
   });
 });
-
-function closeSearch() {
-  document.getElementById("searchOverlay").classList.remove("active");
-}
 
 </script>
 
@@ -625,7 +605,7 @@ function closeSearch() {
                 <i class="ph ph-monitor-play d-block  text-center "></i>
                 Models </a>
         </li>
-        <li class="footer-menu-item">
+         <li class="footer-menu-item">
             <a href="javascript:void(0)" class="menu- font-size-12" onclick="openSearch()">
             <i class="ph ph-magnifying-glass d-block text-center"></i>
              Search
@@ -681,13 +661,13 @@ function closeSearch() {
             <h4 class="footer-link-title text-capitalize">Movies to Watch</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize"  href="./cast/cast.html"><span>Top trending</span></a>
+                <a class="text-capitalize" target="_blank" href="./cast/cast.html"><span>Top trending</span></a>
               </li>
               <li>
-                <a class="text-capitalize"  href="cast/cast.html?category=desi"><span>Recommended</span></a>
+                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=desi"><span>Recommended</span></a>
               </li>
               <li>
-                <a class="text-capitalize"  href="cast/cast.html?category=usa"><span>Popular</span></a>
+                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=usa"><span>Popular</span></a>
               </li>
             </ul>
           </div>
@@ -695,14 +675,14 @@ function closeSearch() {
             <h4 class="footer-link-title text-capitalize">Quick Links</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize"  href="./contact/contact-us.html"><span>contact us</span></a>
+                <a class="text-capitalize" target="_blank" href="./contact/contact-us.html"><span>contact us</span></a>
               </li>
               <li>
-                <a class="text-capitalize"  href="./pricing-plan.html"><span>Pricing Plan</span></a>
+                <a class="text-capitalize" target="_blank" href="./pricing-plan.html"><span>Pricing Plan</span></a>
               </li>
               
               <li>
-                <a class="text-capitalize"  href="./privacy/privacy-policy.html"><span>FAQ</span></a>
+                <a class="text-capitalize" target="_blank" href="./privacy/privacy-policy.html"><span>FAQ</span></a>
               </li>
             </ul>
           </div>
@@ -734,22 +714,22 @@ function closeSearch() {
               <div class="social-footer">
                 <ul class="m-0 d-inline list-unstyled widget_social_media d-flex gap-2 flex-wrap">
                   <li>
-                    <a href="https://www.facebook.com/"  class="position-relative">
+                    <a href="https://www.facebook.com/" target="_blank" class="position-relative">
                       <i class="icon icon-facebook-share"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://x.com/model_worlds_1"  class="position-relative">
+                    <a href="https://x.com/model_worlds_1" target="_blank" class="position-relative">
                       <i class="ph ph-x-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/model.worlds_1/"  class="position-relative">
+                    <a href="https://www.instagram.com/model.worlds_1/" target="_blank" class="position-relative">
                       <i class="ph ph-instagram-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://github.com/sanjayengineer121/backenmd_app-sundarikanya"  class="position-relative">
+                    <a href="https://github.com/sanjayengineer121/backenmd_app-sundarikanya" target="_blank" class="position-relative">
                       <i class="ph-fill ph-linkedin-logo"></i>
                     </a>
                   </li>
@@ -876,21 +856,11 @@ function closeSearch() {
         <i class="ph ph-caret-up fw-bold"></i>
      </a>
   </div>  
-  <script src="js/libs.min.js"></script>
+<script src="js/libs.min.js" defer></script>
+<script src="js/streamit.js" defer></script>
+<script src="js/swiper.js" defer></script>
  
-  
-  <script src="js/lodash.min.js"></script>
-  <!-- External Library Bundle Script -->
-  <script src="js/external.min.js"></script>
-  <!-- countdown Script -->
-  <script src="js/countdown.js"></script>
-  <!-- utility Script -->
-  <script src="js/utility.js"></script>
-  <!-- Setting Script -->
-  <script src="js/setting.js"></script>
-  <script src="js/setting-init.js" defer=""></script>
-  <!-- Streamit Script -->
-  <script src="js/streamit.js" defer=""></script>
+
 
 
 </body></html>
