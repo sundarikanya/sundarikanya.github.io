@@ -25,7 +25,91 @@
   <!-- Sweetlaert2 css -->
   <link rel="stylesheet" href="css/sweetalert2.min.css">
   
-  
+    
+  <style>
+    .search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.35s ease;
+  z-index: 9999;
+}
+
+.search-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-card {
+  background: rgba(20, 20, 20, 0.95);
+  padding: 30px;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  transform: scale(0.9);
+  transition: 0.35s ease;
+}
+
+.search-overlay.active .search-card {
+  transform: scale(1);
+}
+
+.search-card h4 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.search-card input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: #111;
+  color: #fff;
+}
+
+.search-card input::placeholder {
+  color: #aaa;
+}
+
+.hint {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg);
+}
+
+  </style>
   
   <!-- Streamit Design System Css -->
   <link rel="stylesheet" href="css/streamit.min.css">
@@ -208,10 +292,10 @@
                             <ul class="dropdown-menu p-0 dropdown-search m-0 iq-search-bar" style="width: 20rem;">
                                <li class="p-0">
                                   <div class="form-group input-group mb-0">
-                                     <input type="text" class="form-control border-0" placeholder="Search...">
-                                     <button type="submit" class="search-submit">
-                                        <i class="ph ph-magnifying-glass"></i>
-                                     </button>
+                                     <input type="text" id="searchInput1" class="form-control border-0" placeholder="Search...">
+                                     <button type="button" class="search-submit" onclick="openSearch1()">
+                                      <i class="ph ph-magnifying-glass"></i>
+                                    </button>
                                   </div>
                                </li>
                             </ul>
@@ -312,30 +396,143 @@
       </div>
     </div>
 </section>
+
+
+<div id="searchOverlay" class="search-overlay">
+  <div class="search-card">
+    
+    <!-- Close Button -->
+    <button class="close-btn" onclick="closeSearch()">✖</button>
+
+    <h4>What are you looking for?</h4>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search videos, categories, creators..."
+    />
+    <p class="hint">Press Enter to search</p>
+  </div>
+</div>
+
+
+
+<script>
+function openSearch() {
+  const overlay = document.getElementById("searchOverlay");
+  const input = document.getElementById("searchInput");
+
+  overlay.classList.add("active");
+
+  setTimeout(() => {
+    input.focus();
+  }, 200);
+}
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("active");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("searchInput");
+  const overlay = document.getElementById("searchOverlay");
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const value = this.value.trim();
+      if (!value) return;
+
+      // Smooth close animation first
+      overlay.classList.remove("active");
+
+      setTimeout(() => {
+        window.location.href = `../cast/search.html?query=${encodeURIComponent(value)}`;
+      }, 300);
+    }
+  });
+
+  // Click outside to close
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+});
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("active");
+}
+
+
+function openSearch1() {
+  const overlay = document.getElementById("searchOverlay");
+  const input = document.getElementById("searchInput1");
+
+  overlay.classList.add("active");
+
+  setTimeout(() => {
+    input.focus();
+  }, 200);
+}
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("searchInput1");
+  const overlay = document.getElementById("searchOverlay");
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const value = this.value.trim();
+      if (!value) return;
+
+      // Smooth close animation first
+      overlay.classList.remove("active");
+
+      setTimeout(() => {
+        window.location.href = `../cast/search.html?query=${encodeURIComponent(value)}`;
+      }, 300);
+    }
+  });
+
+  // Click outside to close
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+});
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("active");
+}
+
+</script>
+
+
+
 <div class="streamit-mobile-footer-menu" aria-label="Mobile Footer Navigation">
     <ul class="footer-menu list-inline d-flex align-items-center justify-content-between m-0">
         <li class="footer-menu-item">
-            <a href="./view-all-movie.html" class="menu-link font-size-12">
+            <a href="../index.html" class="menu-link font-size-12">
                 <i class="ph ph-film-reel d-block  text-center "></i>
-                Movies </a>
+                Home </a>
         </li>
         <li class="footer-menu-item">
-            <a href="./view-all-movie.html" class="menu-link font-size-12">
+            <a href="../cast/cast.html" class="menu-link font-size-12">
                 <i class="ph ph-monitor-play d-block  text-center "></i>
-                Videos </a>
+                Models </a>
         </li>
-        <li class="footer-menu-item">
-            <a href="./view-all-movie.html" class="menu- font-size-12">
-                <i class="ph ph-magnifying-glass d-block  text-center "></i>
-                Search </a>
+
+          <li class="footer-menu-item">
+            <a href="javascript:void(0)" class="menu- font-size-12" onclick="openSearch()">
+            <i class="ph ph-magnifying-glass d-block text-center"></i>
+             Search
+              </a>
         </li>
+
         <li class="footer-menu-item">
-            <a href="./view-all-movie.html" class="menu-link font-size-12">
+            <a href="../tag/tag.html" class="menu-link font-size-12">
                 <i class="ph ph-television d-block  text-center "></i>
-                TV Shows </a>
+                Cotegary </a>
         </li>
         <li class="footer-menu-item">
-            <a href="./profile-marvin.html" class="menu-link font-size-12">
+            <a href="../about-us/about-us.html" class="menu-link font-size-12">
                 <i class="ph ph-user d-block  text-center "></i>
                 Profile </a>
         </li>
@@ -378,13 +575,13 @@
             <h4 class="footer-link-title text-capitalize">Movies to Watch</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize" target="_blank" href="./cast/cast.html"><span>Top trending</span></a>
+                <a class="text-capitalize"  href="./cast/cast.html"><span>Top trending</span></a>
               </li>
               <li>
-                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=desi"><span>Recommended</span></a>
+                <a class="text-capitalize"  href="cast/cast.html?category=desi"><span>Recommended</span></a>
               </li>
               <li>
-                <a class="text-capitalize" target="_blank" href="cast/cast.html?category=usa"><span>Popular</span></a>
+                <a class="text-capitalize"  href="cast/cast.html?category=usa"><span>Popular</span></a>
               </li>
             </ul>
           </div>
@@ -392,14 +589,14 @@
             <h4 class="footer-link-title text-capitalize">Quick Links</h4>
             <ul class="list-unstyled footer-menu mb-0">
               <li>
-                <a class="text-capitalize" target="_blank" href="./contact/contact-us.html"><span>contact us</span></a>
+                <a class="text-capitalize"  href="./contact/contact-us.html"><span>contact us</span></a>
               </li>
               <li>
-                <a class="text-capitalize" target="_blank" href="./pricing-plan.html"><span>Pricing Plan</span></a>
+                <a class="text-capitalize"  href="./pricing-plan.html"><span>Pricing Plan</span></a>
               </li>
               
               <li>
-                <a class="text-capitalize" target="_blank" href="./privacy/privacy-policy.html"><span>FAQ</span></a>
+                <a class="text-capitalize"  href="./privacy/privacy-policy.html"><span>FAQ</span></a>
               </li>
             </ul>
           </div>
@@ -431,22 +628,22 @@
               <div class="social-footer">
                 <ul class="m-0 d-inline list-unstyled widget_social_media d-flex gap-2 flex-wrap">
                   <li>
-                    <a href="https://www.facebook.com/" target="_blank" class="position-relative">
+                    <a href="https://www.facebook.com/"  class="position-relative">
                       <i class="icon icon-facebook-share"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://x.com/model_worlds_1" target="_blank" class="position-relative">
+                    <a href="https://x.com/model_worlds_1"  class="position-relative">
                       <i class="ph ph-x-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/model.worlds_1/" target="_blank" class="position-relative">
+                    <a href="https://www.instagram.com/model.worlds_1/"  class="position-relative">
                       <i class="ph ph-instagram-logo"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://github.com/sanjayengineer121/backenmd_app-sundarikanya" target="_blank" class="position-relative">
+                    <a href="https://github.com/sanjayengineer121/backenmd_app-sundarikanya"  class="position-relative">
                       <i class="ph-fill ph-linkedin-logo"></i>
                     </a>
                   </li>
